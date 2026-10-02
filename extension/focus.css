@@ -66,10 +66,13 @@ ytd-search #primary ytd-item-section-renderer > #contents > :not(ytd-video-rende
   grid-column: 1 / -1;
 }
 
-ytd-search #primary ytd-item-section-renderer > #contents > ytd-ad-slot-renderer {
-  grid-column: span 2 !important;
-  min-width: 0 !important;
-  width: 100% !important;
+/* Sponsored results use wide layouts that break the video grid. */
+ytd-search ytd-ad-slot-renderer,
+ytd-search ytd-promoted-video-renderer,
+ytd-search ytd-promoted-sparkles-web-renderer,
+ytd-search ytd-display-ad-renderer,
+ytd-search ytd-in-feed-ad-layout-renderer {
+  display: none !important;
 }
 
 ytd-search #primary ytd-item-section-renderer > #contents > yt-lockup-view-model {

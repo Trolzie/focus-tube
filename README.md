@@ -4,16 +4,18 @@
 
 <p align="center">
   <strong>A quieter YouTube window for <a href="https://omarchy.org/">Omarchy</a>.</strong><br>
-  Search for a video, watch it, and get on with your day.
+  Built to remove clutter and distractions, so you can find a video and get on with your day.
 </p>
 
 <p align="center">
-  <a href="#install">Install</a> · <a href="#see-it">See it</a> · <a href="#focus-switches">Focus switches</a> · <a href="#made-for-omarchy">Made for Omarchy</a>
+  <a href="#install">Install</a> · <a href="#see-it">See it</a> · <a href="#focus-switches">Focus switches</a> · <a href="#made-for-omarchy">Made for Omarchy</a> · <a href="#contribute">Contribute</a>
 </p>
 
 ## The idea
 
-Focus Tube opens YouTube in its own Chromium app window. The landing page puts the cursor in the search box, results appear in a compact grid, and the parts of YouTube that pull you away are controlled by six simple switches.
+Focus Tube was built as a way to remove the clutter and distractions around YouTube videos. It opens YouTube in its own Chromium app window, puts search results in a compact grid, and lets you control the parts of the site that pull you away.
+
+This is a work in progress. The ambition is to make Focus Tube feel seamless with Omarchy, from its keyboard shortcut and tiled window to its colors following your theme (as they should! :P).
 
 ```text
 SUPER + SHIFT + Y  →  SEARCH  →  WATCH  →  BACK TO WORK
@@ -21,9 +23,9 @@ SUPER + SHIFT + Y  →  SEARCH  →  WATCH  →  BACK TO WORK
 
 ## See it
 
-**Start with a search.** The input is ready as soon as the window opens.
+**Start with a search.** A simple landing page gives you a place to search or paste a YouTube link.
 
-![Focus Tube landing page with a focused search field](assets/landing.png)
+![Focus Tube landing page with a search field](assets/landing.png)
 
 **Scan the results.** Each card keeps the thumbnail, title, channel, date, and views together.
 
@@ -48,9 +50,9 @@ Your choices stay in Focus Tube's dedicated browser profile.
 
 ## Made for Omarchy
 
-- **Keyboard first.** Launch it from the app launcher or give it a keybinding. Search is ready for typing on arrival.
+- **Keyboard first.** Launch it from the app launcher or give it a keybinding.
 - **A window that tiles.** Chromium runs as an app window with its own profile, so it fits into your usual layout.
-- **One desktop, one palette.** The pixel art, interface colors, and desktop icon use the active Omarchy theme. Theme changes update while the app is open.
+- **One desktop, one palette.** The pixel art, interface colors, and desktop icon use the active Omarchy theme. Theme changes update while the app is open, as they should.
 - **Easy to shape.** The interface lives in a small local extension; the focus switches are yours to change at any time.
 
 ## Install
@@ -82,6 +84,10 @@ git pull
 ```
 
 Close and reopen Focus Tube to load extension updates. Your browser profile and Focus choices are kept. The installer copies the app to `~/.local`, creates a desktop entry, and installs an Omarchy `theme-set` hook.
+
+## Contribute
+
+Focus Tube is still taking shape. Bug reports, design ideas, and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for how to reproduce an issue, test a change, and send a patch.
 
 ## Notes
 
