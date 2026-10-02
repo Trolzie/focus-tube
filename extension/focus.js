@@ -8,6 +8,7 @@
     showLeftMenu: false,
     showEndCards: false,
     autoplayNext: false,
+    largeGrid: false,
   };
   const labels = {
     showHomeFeed: "Home feed",
@@ -136,11 +137,15 @@
     root.classList.toggle("ytf-hide-left-menu", !settings.showLeftMenu);
     root.classList.toggle("ytf-hide-endcards", !settings.showEndCards);
     root.classList.toggle("ytf-home-route", location.pathname === "/");
+    root.classList.toggle("ytf-results-route", location.pathname === "/results");
+    root.classList.toggle("ytf-large-grid", settings.largeGrid);
 
     if (controls) {
-      for (const key of Object.keys(defaults)) {
+      for (const key of Object.keys(labels)) {
         controls.querySelector(`[data-setting="${key}"]`).checked = settings[key];
       }
+      controls.querySelector("#ytf-grid-button")
+        .setAttribute("aria-pressed", String(settings.largeGrid));
     }
     enforceAutoplay();
   }
@@ -226,6 +231,18 @@
   function makeControls() {
     controls = document.createElement("div");
     controls.id = "ytf-controls";
+    const gridButton = document.createElement("button");
+    gridButton.id = "ytf-grid-button";
+    gridButton.type = "button";
+    gridButton.textContent = "Large cards";
+    gridButton.setAttribute("aria-label", "Large search cards");
+    gridButton.setAttribute("aria-pressed", String(settings.largeGrid));
+    gridButton.addEventListener("click", () => {
+      settings.largeGrid = !settings.largeGrid;
+      chrome.storage.local.set({ largeGrid: settings.largeGrid });
+      applySettings();
+    });
+    controls.append(gridButton);
     const button = document.createElement("button");
     button.id = "ytf-settings-button";
     button.type = "button";

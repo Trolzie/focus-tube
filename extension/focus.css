@@ -50,6 +50,10 @@ ytd-search #primary ytd-section-list-renderer > #contents {
   align-items: start;
 }
 
+html.ytf-large-grid ytd-search #primary ytd-section-list-renderer > #contents {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 400px), 1fr));
+}
+
 ytd-search #primary ytd-section-list-renderer > #contents > ytd-item-section-renderer,
 ytd-search #primary ytd-item-section-renderer > #contents,
 ytd-search #primary ytd-item-section-renderer > #header,
@@ -416,7 +420,8 @@ html.ytf-home-route.ytf-hide-home #guide {
 }
 
 #ytf-search-form button,
-#ytf-settings-button {
+#ytf-settings-button,
+#ytf-grid-button {
   border: 1px solid var(--ytf-muted);
   border-radius: 8px;
   background: var(--ytf-lighter-background);
@@ -435,13 +440,15 @@ html.ytf-home-route.ytf-hide-home #guide {
 
 #ytf-search-input:focus-visible,
 #ytf-search-form button:focus-visible,
-#ytf-settings-button:focus-visible {
+#ytf-settings-button:focus-visible,
+#ytf-grid-button:focus-visible {
   outline: 2px solid var(--ytf-accent);
   outline-offset: 2px;
 }
 
 #ytf-search-form button:hover,
-#ytf-settings-button:hover {
+#ytf-settings-button:hover,
+#ytf-grid-button:hover {
   background: var(--ytf-muted);
 }
 
@@ -457,14 +464,32 @@ html.ytf-home-route.ytf-hide-home #guide {
 }
 
 #ytf-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   position: fixed;
   z-index: 1200;
   right: 12px;
   bottom: 12px;
 }
 
-#ytf-settings-button {
+#ytf-settings-button,
+#ytf-grid-button {
   box-shadow: 0 4px 20px #0008;
+}
+
+#ytf-grid-button {
+  display: none;
+}
+
+html.ytf-results-route #ytf-grid-button {
+  display: block;
+}
+
+#ytf-grid-button[aria-pressed="true"] {
+  border-color: var(--ytf-accent);
+  background: var(--ytf-accent);
+  color: var(--ytf-darker-background);
 }
 
 #ytf-settings-panel {
