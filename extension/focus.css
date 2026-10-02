@@ -174,8 +174,12 @@ ytd-search ytd-video-renderer #badges {
   flex-direction: column;
   gap: 3px;
   min-width: 0;
-  color: var(--yt-spec-text-secondary, var(--ytf-light-foreground));
+  color: #606060;
   font: 12px/1.4 system-ui, sans-serif;
+}
+
+html[dark] .ytf-card-details {
+  color: #aaa;
 }
 
 .ytf-card-channel {

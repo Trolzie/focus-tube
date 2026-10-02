@@ -1,19 +1,61 @@
-# Focus Tube
+<p align="center">
+  <img src="assets/readme-banner.svg" alt="Focus Tube — open, search, watch, back to work" width="960">
+</p>
 
-A focused YouTube window for [Omarchy](https://omarchy.org/). It runs Chromium as an app with its own local profile and a small extension that changes the YouTube interface.
+<p align="center">
+  <strong>A quieter YouTube window for <a href="https://omarchy.org/">Omarchy</a>.</strong><br>
+  Search for a video, watch it, and get on with your day.
+</p>
 
-## What it does
+<p align="center">
+  <a href="#install">Install</a> · <a href="#see-it">See it</a> · <a href="#focus-switches">Focus switches</a> · <a href="#made-for-omarchy">Made for Omarchy</a>
+</p>
 
-- A search and link field on the landing page; the input is ready for typing when you arrive.
-- A compact grid for search results with title, channel, date, and views under each thumbnail.
-- Focus settings for the home feed, left menu, Shorts, watch suggestions, end cards, and autoplay. The distracting options start hidden.
-- A pixel logo and colors that follow the active Omarchy theme, including changes made while Focus Tube is open.
+## The idea
 
-YouTube does not include like counts in search result markup, and [dislike counts are private](https://developers.google.com/youtube/v3/docs/videos), so the grid does not show rating counts.
+Focus Tube opens YouTube in its own Chromium app window. The landing page puts the cursor in the search box, results appear in a compact grid, and the parts of YouTube that pull you away are controlled by six simple switches.
+
+```text
+SUPER + SHIFT + Y  →  SEARCH  →  WATCH  →  BACK TO WORK
+```
+
+## See it
+
+**Start with a search.** The input is ready as soon as the window opens.
+
+![Focus Tube landing page with a focused search field](assets/landing.png)
+
+**Scan the results.** Each card keeps the thumbnail, title, channel, date, and views together.
+
+![Focus Tube search results in a compact grid](assets/results.png)
+
+Screenshots use Omarchy's Ristretto palette. Focus Tube follows whichever Omarchy theme you choose.
+
+## Focus switches
+
+Open **Focus** inside the app to choose what appears. These start off:
+
+| Switch | Controls |
+| --- | --- |
+| Home feed | YouTube's home recommendations |
+| Watch suggestions | Recommendations beside a video |
+| Shorts | Shorts links and Shorts in results |
+| Left menu | YouTube's navigation sidebar |
+| End cards | Suggested videos over the ending |
+| Autoplay next video | Automatic playback of the next video |
+
+Your choices stay in Focus Tube's dedicated browser profile.
+
+## Made for Omarchy
+
+- **Keyboard first.** Launch it from the app launcher or give it a keybinding. Search is ready for typing on arrival.
+- **A window that tiles.** Chromium runs as an app window with its own profile, so it fits into your usual layout.
+- **One desktop, one palette.** The pixel art, interface colors, and desktop icon use the active Omarchy theme. Theme changes update while the app is open.
+- **Easy to shape.** The interface lives in a small local extension; the focus switches are yours to change at any time.
 
 ## Install
 
-On Omarchy, with Chromium and Python available:
+On Omarchy, with Chromium and Python on your `PATH`:
 
 ```bash
 git clone https://github.com/Trolzie/focus-tube.git
@@ -21,18 +63,26 @@ cd focus-tube
 ./install.sh
 ```
 
-Launch `Focus Tube` from the app launcher, or run `~/.local/bin/youtube-focus`. Close an existing Focus Tube window before reinstalling to pick up extension code changes.
+Launch **Focus Tube** from the app launcher, or run `~/.local/bin/youtube-focus`.
 
-The installer copies the extension to `~/.local/share/youtube-focus/extension`, adds a desktop entry, and installs an Omarchy `theme-set` hook. It keeps the dedicated browser profile at `~/.local/share/youtube-focus/profile` when reinstalling. Theme colors and the desktop icon are generated from the current Omarchy theme.
+To launch with **Super+Shift+Y**, add this to your Omarchy `~/.config/hypr/bindings.lua`:
 
-The keyboard shortcut is optional and local to your Omarchy configuration. On the original setup it is `Super+Shift+Y`.
+```lua
+hl.unbind("SUPER + SHIFT + Y")
+o.bind("SUPER + SHIFT + Y", "Focus Tube", os.getenv("HOME") .. "/.local/bin/youtube-focus")
+```
 
-## Project files
+The first line clears Omarchy's existing binding for that key combination.
 
-- `bin/youtube-focus`: Chromium app launcher, restricted to HTTPS YouTube links.
-- `extension/`: Focus Tube interface and settings.
-- `theme.py`: Generates the palette and desktop icon from Omarchy colors.
-- `hooks/focus-tube-theme`: Refreshes those files after a theme change.
-- `install.sh`: Installs or updates the app without copying a browser profile.
+## Update
 
-Focus settings are stored in the dedicated Chromium profile on your machine. The repository contains no browser profile or account data.
+```bash
+git pull
+./install.sh
+```
+
+Close and reopen Focus Tube to load extension updates. Your browser profile and Focus choices are kept. The installer copies the app to `~/.local`, creates a desktop entry, and installs an Omarchy `theme-set` hook.
+
+## Notes
+
+Focus Tube uses YouTube's own pages and can be affected by changes to them. The results grid omits likes and dislikes because YouTube does not expose those counts in search result markup, and [dislike counts are private in its API](https://developers.google.com/youtube/v3/docs/videos). The app and this repository are unofficial and are not affiliated with Omarchy or YouTube.
