@@ -60,6 +60,11 @@ ytd-search #primary ytd-item-section-renderer > #continuations {
 
 ytd-search #primary ytd-continuation-item-renderer {
   grid-column: 1 / -1;
+  /* Reach YouTube's next batch before the viewer reaches the grid's end. */
+  margin-top: -900px !important;
+  padding-top: 900px !important;
+  box-sizing: border-box;
+  pointer-events: none;
 }
 
 ytd-search #primary ytd-item-section-renderer > #contents > :not(ytd-video-renderer) {
