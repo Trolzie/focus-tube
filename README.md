@@ -57,7 +57,22 @@ Your choices stay in Focus Tube's dedicated browser profile.
 
 ## Install
 
-On Omarchy, with Chromium and Python on your `PATH`:
+### Pacman-managed package
+
+The AUR listing is pending while new AUR account registration is closed. **We plan to publish `focus-tube-git` to the AUR as soon as registration reopens**, so it can be found in Omarchy's **Install → AUR** menu. The remaining steps are tracked in the [roadmap](docs/ROADMAP.md). In the meantime, build the package from the recipe in this repository:
+
+```bash
+omarchy pkg add base-devel git
+git clone https://github.com/Trolzie/focus-tube.git
+cd focus-tube/packaging/aur
+makepkg -si
+```
+
+Launch **Focus Tube** from the app launcher, or run `focus-tube`. The package installs the app through pacman; your theme files, Focus choices, and browser profile remain in your home directory. First launch sets up the Omarchy theme hook.
+
+### Local install
+
+If you prefer the original install script, with Chromium and Python on your `PATH`:
 
 ```bash
 git clone https://github.com/Trolzie/focus-tube.git
@@ -65,34 +80,37 @@ cd focus-tube
 ./install.sh
 ```
 
-Launch **Focus Tube** from the app launcher, or run `~/.local/bin/youtube-focus`.
+Launch it from the app launcher, or run `~/.local/bin/youtube-focus`.
 
-An Arch package recipe is also included in [`packaging/aur/PKGBUILD`](packaging/aur/PKGBUILD). Until the AUR listing is published, you can build and install the pacman-managed package from a checkout:
-
-```bash
-cd packaging/aur
-makepkg -si
-```
-
-That package launches as `focus-tube` and sets up your local theme files and Omarchy theme hook on first launch. Your Focus choices and browser profile stay in your home directory.
+### Shortcut
 
 To launch with **Super+Shift+Y**, add this to your Omarchy `~/.config/hypr/bindings.lua`:
 
 ```lua
 hl.unbind("SUPER + SHIFT + Y")
-o.bind("SUPER + SHIFT + Y", "Focus Tube", os.getenv("HOME") .. "/.local/bin/youtube-focus")
+o.bind("SUPER + SHIFT + Y", "Focus Tube", "focus-tube")
 ```
 
-The first line clears Omarchy's existing binding for that key combination.
+The first line clears Omarchy's existing binding for that key combination. If you used the local install script, replace `"focus-tube"` with `os.getenv("HOME") .. "/.local/bin/youtube-focus"` in the second line.
 
 ## Update
+
+For the pacman-managed package, from your `focus-tube` checkout:
+
+```bash
+git pull
+cd packaging/aur
+makepkg -si
+```
+
+For the local install, from your `focus-tube` checkout:
 
 ```bash
 git pull
 ./install.sh
 ```
 
-Close and reopen Focus Tube to load extension updates. Your browser profile and Focus choices are kept. The installer copies the app to `~/.local`, creates a desktop entry, and installs an Omarchy `theme-set` hook.
+Close and reopen Focus Tube to load extension updates. Your browser profile and Focus choices are kept.
 
 ## Contribute
 
