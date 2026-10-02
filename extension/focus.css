@@ -98,6 +98,7 @@ ytd-search yt-lockup-view-model .ytLockupViewModelHost {
   flex-direction: column !important;
   width: 100% !important;
   min-width: 0 !important;
+  margin: 0 !important;
 }
 
 ytd-search yt-lockup-view-model .ytLockupViewModelContentImage {
@@ -113,16 +114,29 @@ ytd-search yt-lockup-view-model .ytLockupViewModelContentImage {
 ytd-search yt-lockup-view-model .ytLockupViewModelMetadata {
   width: 100% !important;
   min-width: 0 !important;
-  height: auto !important;
+  height: 40px !important;
   padding: 8px 0 0 !important;
   flex: none !important;
+  overflow: hidden;
+  box-sizing: content-box;
+}
+
+ytd-search yt-lockup-view-model .ytLockupMetadataViewModelHeadingReset {
+  height: 20px !important;
+  margin: 0 !important;
+  overflow: hidden;
 }
 
 ytd-search yt-lockup-view-model .ytLockupMetadataViewModelTitle {
   font-size: 14px !important;
+  line-height: 20px !important;
+  display: block !important;
+  white-space: nowrap !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-ytd-search yt-lockup-view-model .ytContentMetadataViewModelMetadataRow:nth-child(n + 2),
+ytd-search yt-lockup-view-model .ytLockupMetadataViewModelMetadata,
 ytd-search yt-lockup-view-model .ytLockupMetadataViewModelMenuButton {
   display: none !important;
 }
@@ -163,13 +177,24 @@ ytd-search ytd-video-renderer #title-wrapper {
   padding: 0 !important;
 }
 
+ytd-search ytd-video-renderer .text-wrapper {
+  height: 40px !important;
+  flex: none !important;
+  overflow: hidden;
+}
+
+ytd-search ytd-video-renderer #title-wrapper {
+  height: 20px !important;
+  overflow: hidden;
+}
+
 ytd-search ytd-video-renderer #video-title {
-  display: -webkit-box !important;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  display: block !important;
+  white-space: nowrap !important;
+  text-overflow: ellipsis;
   overflow: hidden;
   font-size: 14px !important;
-  line-height: 1.35 !important;
+  line-height: 20px !important;
 }
 
 ytd-search ytd-video-renderer #title-wrapper #menu,
@@ -185,11 +210,15 @@ ytd-search ytd-video-renderer #badges {
 
 .ytf-card-details {
   display: flex;
-  flex-direction: column;
-  gap: 3px;
+  align-items: center;
+  gap: 0;
   min-width: 0;
+  width: 100%;
+  height: 20px;
+  overflow: hidden;
+  white-space: nowrap;
   color: #606060;
-  font: 12px/1.4 system-ui, sans-serif;
+  font: 12px/20px system-ui, sans-serif;
 }
 
 html[dark] .ytf-card-details {
@@ -197,6 +226,8 @@ html[dark] .ytf-card-details {
 }
 
 .ytf-card-channel {
+  flex: 0 1 auto;
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -210,8 +241,14 @@ html[dark] .ytf-card-details {
 
 .ytf-card-stats {
   display: flex;
-  flex-wrap: wrap;
-  gap: 4px 10px;
+  flex: none;
+  gap: 0;
+}
+
+.ytf-card-stats:not(:empty)::before,
+.ytf-card-stats span + span::before {
+  content: "·";
+  margin: 0 5px;
 }
 
 /* Keep YouTube's search and account controls, but give the masthead our branding. */

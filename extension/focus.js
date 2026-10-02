@@ -23,13 +23,26 @@
 
   function decorateResults() {
     if (location.pathname !== "/results") return;
-    for (const card of document.querySelectorAll("ytd-search ytd-video-renderer")) {
-      const wrapper = card.querySelector(".text-wrapper");
-      const channel = card.querySelector("#channel-info ytd-channel-name a");
-      const [viewsNode, dateNode] = card.querySelectorAll(
-        "ytd-video-meta-block #metadata-line .inline-metadata-item"
+    for (const card of document.querySelectorAll(
+      "ytd-search ytd-video-renderer, ytd-search yt-lockup-view-model"
+    )) {
+      const lockup = card.matches("yt-lockup-view-model");
+      const wrapper = card.querySelector(
+        lockup ? ".ytLockupViewModelMetadata" : ".text-wrapper"
+      );
+      const channel = card.querySelector(
+        lockup
+          ? ".ytContentMetadataViewModelMetadataRow:first-child a"
+          : "#channel-info ytd-channel-name a"
       );
       if (!wrapper || !channel) continue;
+      const metadata = lockup
+        ? [...card.querySelectorAll(".ytContentMetadataViewModelMetadataRow:first-child .ytContentMetadataViewModelMetadataText")]
+        : [...card.querySelectorAll("ytd-video-meta-block #metadata-line .inline-metadata-item")];
+      const [viewsNode, dateNode] = lockup
+        ? [metadata.find((node) => /\bviews?\b/i.test(node.textContent)),
+          metadata.find((node) => /\b(?:ago|yesterday|today)\b/i.test(node.textContent))]
+        : metadata;
       const name = channel.textContent.trim();
       const date = dateNode?.textContent.trim() || "";
       const rawViews = viewsNode?.textContent.trim() || "";
