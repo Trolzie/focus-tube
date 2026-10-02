@@ -67,6 +67,15 @@ cd focus-tube
 
 Launch **Focus Tube** from the app launcher, or run `~/.local/bin/youtube-focus`.
 
+An Arch package recipe is also included in [`packaging/aur/PKGBUILD`](packaging/aur/PKGBUILD). Until the AUR listing is published, you can build and install the pacman-managed package from a checkout:
+
+```bash
+cd packaging/aur
+makepkg -si
+```
+
+That package launches as `focus-tube` and sets up your local theme files and Omarchy theme hook on first launch. Your Focus choices and browser profile stay in your home directory.
+
 To launch with **Super+Shift+Y**, add this to your Omarchy `~/.config/hypr/bindings.lua`:
 
 ```lua
@@ -92,3 +101,5 @@ Focus Tube is still taking shape. Bug reports, design ideas, and pull requests a
 ## Notes
 
 Focus Tube uses YouTube's own pages and can be affected by changes to them. The results grid omits likes and dislikes because YouTube does not expose those counts in search result markup, and [dislike counts are private in its API](https://developers.google.com/youtube/v3/docs/videos). The app and this repository are unofficial and are not affiliated with Omarchy or YouTube.
+
+Focus Tube is available under the [MIT license](LICENSE), the same license used by Omarchy.

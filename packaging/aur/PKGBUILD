@@ -1,0 +1,35 @@
+# Maintainer: Trolzie
+
+pkgname=focus-tube-git
+pkgver=r1.a6c9d26
+pkgrel=1
+pkgdesc='A quieter YouTube window for Omarchy'
+arch=('x86_64' 'aarch64')
+url='https://github.com/Trolzie/focus-tube'
+license=('MIT')
+depends=('chromium' 'python' 'omarchy' 'uwsm')
+makedepends=('git')
+provides=('focus-tube')
+conflicts=('focus-tube')
+source=('focus-tube::git+https://github.com/Trolzie/focus-tube.git')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/focus-tube"
+  printf 'r%s.%s' "$(git rev-list --count HEAD)" "$(git rev-parse --short=7 HEAD)"
+}
+
+package() {
+  local root="$srcdir/focus-tube"
+
+  install -Dm755 "$root/bin/focus-tube" "$pkgdir/usr/bin/focus-tube"
+  install -Dm755 "$root/bin/youtube-focus" "$pkgdir/usr/share/focus-tube/bin/youtube-focus"
+  install -Dm755 "$root/hooks/focus-tube-theme" "$pkgdir/usr/share/focus-tube/hooks/focus-tube-theme"
+  install -Dm644 "$root/theme.py" "$pkgdir/usr/share/focus-tube/theme.py"
+  install -dm755 "$pkgdir/usr/share/focus-tube/extension"
+  install -m644 "$root"/extension/* "$pkgdir/usr/share/focus-tube/extension/"
+  install -Dm644 "$root/packaging/focus-tube.desktop" "$pkgdir/usr/share/applications/focus-tube.desktop"
+  install -Dm644 "$root/extension/icon.svg" "$pkgdir/usr/share/icons/hicolor/scalable/apps/focus-tube.svg"
+  install -Dm644 "$root/LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  install -Dm644 "$root/README.md" "$pkgdir/usr/share/doc/$pkgname/README.md"
+}

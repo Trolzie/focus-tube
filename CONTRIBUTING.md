@@ -21,3 +21,5 @@ YouTube changes its page structure often. A precise example helps find which sel
 5. Open a pull request describing the change and how you checked it. Include a before and after screenshot when the interface changes.
 
 Keep changes consistent with the project's aim: less clutter, controls that are easy to understand, and colors that follow Omarchy. Please avoid committing browser profiles, account data, or generated local files.
+
+The Arch package recipe lives in `packaging/aur/PKGBUILD`. If you change packaged files, check that `makepkg -si` still builds and installs them. Contributions are covered by the project's [MIT license](LICENSE).

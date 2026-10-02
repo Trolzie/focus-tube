@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Focus Tube
+Comment=Search and watch YouTube without the clutter
+Exec=focus-tube %u
+Terminal=false
+Icon=focus-tube
+Categories=AudioVideo;Video;
+StartupNotify=true

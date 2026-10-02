@@ -75,6 +75,12 @@ ytd-search ytd-in-feed-ad-layout-renderer {
   display: none !important;
 }
 
+/* Recommendation and channel shelves use large layouts outside the video grid. */
+ytd-search ytd-shelf-renderer,
+ytd-search ytd-channel-renderer {
+  display: none !important;
+}
+
 ytd-search #primary ytd-item-section-renderer > #contents > yt-lockup-view-model {
   grid-column: auto !important;
   width: 100% !important;
@@ -462,10 +468,4 @@ html.ytf-home-route.ytf-hide-home #guide {
 @media (max-width: 440px) {
   #ytf-search-form { flex-direction: column; }
   #ytf-search-form button { width: 100%; }
-}
-
-@media (max-width: 650px) {
-  ytd-search #primary ytd-item-section-renderer > #contents > ytd-ad-slot-renderer {
-    grid-column: auto !important;
-  }
 }

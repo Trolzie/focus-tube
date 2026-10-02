@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+source_dir="${FOCUS_TUBE_SYSTEM_DIR:-/usr/share/focus-tube}"
+app_dir="$HOME/.local/share/youtube-focus"
+
+if [[ ! -f "$source_dir/extension/manifest.json" ]]; then
+  printf 'Focus Tube package files are missing: %s\n' "$source_dir" >&2
+  exit 1
+fi
+
+mkdir -p "$app_dir/extension"
+cp "$source_dir"/extension/* "$app_dir/extension/"
+install -m 644 "$source_dir/theme.py" "$app_dir/theme.py"
+
+hook="$HOME/.config/omarchy/hooks/theme-set.d/focus-tube-theme"
+if ! cmp -s "$source_dir/hooks/focus-tube-theme" "$hook"; then
+  omarchy hook install theme-set "$source_dir/hooks/focus-tube-theme"
+fi
+
+if [[ "${1:-}" == "--setup" ]]; then
+  python "$app_dir/theme.py"
+  exit 0
+fi
+
+exec "$source_dir/bin/youtube-focus" "$@"

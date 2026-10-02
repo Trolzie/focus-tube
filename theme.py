@@ -47,3 +47,9 @@ icon_path = path.with_name("icon.svg")
 icon_temporary = icon_path.with_suffix(".svg.tmp")
 icon_temporary.write_text(icon)
 icon_temporary.replace(icon_path)
+
+user_icon_path = Path.home() / ".local/share/icons/hicolor/scalable/apps/focus-tube.svg"
+user_icon_path.parent.mkdir(parents=True, exist_ok=True)
+user_icon_temporary = user_icon_path.with_suffix(".svg.tmp")
+user_icon_temporary.write_text(icon)
+user_icon_temporary.replace(user_icon_path)
