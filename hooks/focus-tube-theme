@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+python "$HOME/.local/share/youtube-focus/theme.py"

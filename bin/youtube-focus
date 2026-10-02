@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+app_dir="$HOME/.local/share/youtube-focus"
+profile_dir="$app_dir/profile"
+extension_dir="$app_dir/extension"
+url="${1:-https://www.youtube.com/}"
+
+case "$url" in
+  https://youtube.com/*|https://www.youtube.com/*|https://m.youtube.com/*|https://youtu.be/*) ;;
+  *) printf 'Focus Tube accepts only HTTPS YouTube links.\n' >&2; exit 2 ;;
+esac
+
+if [[ ! -f "$extension_dir/manifest.json" ]]; then
+  printf 'Focus Tube extension is missing: %s\n' "$extension_dir" >&2
+  exit 1
+fi
+
+mkdir -p "$profile_dir"
+python "$app_dir/theme.py"
+exec setsid uwsm-app -- chromium \
+  --user-data-dir="$profile_dir" \
+  --load-extension="$extension_dir" \
+  --no-first-run \
+  --app="$url"

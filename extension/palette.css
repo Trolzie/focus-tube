@@ -1,0 +1,12 @@
+:root {
+  --ytf-accent: #e68e0d;
+  --ytf-background: #121212;
+  --ytf-dark-background: #0d0d0d;
+  --ytf-darker-background: #090909;
+  --ytf-lighter-background: #1e1e1e;
+  --ytf-foreground: #bebebe;
+  --ytf-light-foreground: #8a8a8d;
+  --ytf-muted: #333333;
+  --ytf-bright-foreground: #bebebe;
+  --ytf-red: #D35F5F;
+}

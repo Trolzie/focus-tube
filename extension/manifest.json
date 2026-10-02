@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "Focus Tube",
+  "version": "1.0.0",
+  "description": "A quiet YouTube view for the Omarchy Focus Tube app.",
+  "permissions": ["storage"],
+  "web_accessible_resources": [
+    {
+      "resources": ["logo.svg", "palette.css"],
+      "matches": ["https://www.youtube.com/*", "https://youtube.com/*"]
+    }
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/*", "https://youtube.com/*"],
+      "css": ["palette.css", "focus.css"],
+      "js": ["focus.js"],
+      "run_at": "document_start"
+    }
+  ]
+}

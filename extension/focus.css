@@ -1,0 +1,464 @@
+html.ytf-hide-home ytd-browse[page-subtype="home"] #primary,
+html.ytf-hide-home ytd-browse[page-subtype="home"] #secondary,
+html.ytf-hide-home ytd-browse[page-subtype="home"] ytd-rich-grid-renderer,
+html.ytf-home-route.ytf-hide-home ytd-mini-guide-renderer {
+  display: none !important;
+}
+
+html.ytf-hide-suggestions ytd-watch-flexy #secondary,
+html.ytf-hide-suggestions ytd-watch-flexy #related,
+html.ytf-hide-suggestions ytd-watch-flexy ytd-watch-next-secondary-results-renderer {
+  display: none !important;
+}
+
+html.ytf-hide-suggestions ytd-watch-flexy #primary {
+  max-width: none !important;
+}
+
+html.ytf-hide-left-menu #guide,
+html.ytf-hide-left-menu ytd-mini-guide-renderer {
+  display: none !important;
+}
+
+html.ytf-hide-left-menu ytd-page-manager {
+  margin-left: 0 !important;
+}
+
+html.ytf-hide-shorts ytd-guide-entry-renderer:has(a[href^="/shorts"]),
+html.ytf-hide-shorts ytd-mini-guide-entry-renderer:has(a[href^="/shorts"]),
+html.ytf-hide-shorts grid-shelf-view-model:has(a[href^="/shorts/"]),
+html.ytf-hide-shorts ytd-reel-shelf-renderer,
+html.ytf-hide-shorts ytd-rich-shelf-renderer[is-shorts],
+html.ytf-hide-shorts ytm-shorts-lockup-view-model-v2,
+html.ytf-hide-shorts ytm-shorts-lockup-view-model,
+html.ytf-hide-shorts ytd-video-renderer:has(a[href^="/shorts/"]),
+html.ytf-hide-shorts ytd-rich-item-renderer:has(a[href^="/shorts/"]) {
+  display: none !important;
+}
+
+html.ytf-hide-endcards .ytp-ce-element,
+html.ytf-hide-endcards .ytp-endscreen-content,
+html.ytf-hide-endcards .ytp-pause-overlay {
+  display: none !important;
+}
+
+/* Let video cards flow across YouTube's separate result sections. */
+ytd-search #primary ytd-section-list-renderer > #contents {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  gap: 24px 16px;
+  align-items: start;
+}
+
+ytd-search #primary ytd-section-list-renderer > #contents > ytd-item-section-renderer,
+ytd-search #primary ytd-item-section-renderer > #contents,
+ytd-search #primary ytd-item-section-renderer > #header,
+ytd-search #primary ytd-item-section-renderer > #spinner-container,
+ytd-search #primary ytd-item-section-renderer > #continuations {
+  display: contents !important;
+}
+
+ytd-search #primary ytd-continuation-item-renderer {
+  grid-column: 1 / -1;
+}
+
+ytd-search #primary ytd-item-section-renderer > #contents > :not(ytd-video-renderer) {
+  grid-column: 1 / -1;
+}
+
+ytd-search #primary ytd-item-section-renderer > #contents > ytd-ad-slot-renderer {
+  grid-column: span 2 !important;
+  min-width: 0 !important;
+  width: 100% !important;
+}
+
+ytd-search #primary ytd-item-section-renderer > #contents > yt-lockup-view-model {
+  grid-column: auto !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+}
+
+ytd-search yt-lockup-view-model .ytLockupViewModelHost {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+ytd-search yt-lockup-view-model .ytLockupViewModelContentImage {
+  width: 100% !important;
+  max-width: none !important;
+  height: auto !important;
+  aspect-ratio: 16 / 9;
+  flex: none !important;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+ytd-search yt-lockup-view-model .ytLockupViewModelMetadata {
+  width: 100% !important;
+  min-width: 0 !important;
+  height: auto !important;
+  padding: 8px 0 0 !important;
+  flex: none !important;
+}
+
+ytd-search yt-lockup-view-model .ytLockupMetadataViewModelTitle {
+  font-size: 14px !important;
+}
+
+ytd-search yt-lockup-view-model .ytContentMetadataViewModelMetadataRow:nth-child(n + 2),
+ytd-search yt-lockup-view-model .ytLockupMetadataViewModelMenuButton {
+  display: none !important;
+}
+
+ytd-search #primary ytd-item-section-renderer > #contents > ytd-video-renderer {
+  min-width: 0 !important;
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+ytd-search ytd-video-renderer #dismissible {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px;
+  min-width: 0;
+}
+
+ytd-search ytd-video-renderer ytd-thumbnail {
+  display: block !important;
+  flex: none !important;
+  width: 100% !important;
+  max-width: none !important;
+  height: auto !important;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+ytd-search ytd-video-renderer .text-wrapper,
+ytd-search ytd-video-renderer #meta,
+ytd-search ytd-video-renderer #title-wrapper {
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+ytd-search ytd-video-renderer #video-title {
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  font-size: 14px !important;
+  line-height: 1.35 !important;
+}
+
+ytd-search ytd-video-renderer #title-wrapper #menu,
+ytd-search ytd-video-renderer ytd-video-meta-block,
+ytd-search ytd-video-renderer #channel-info,
+ytd-search ytd-video-renderer #description-text,
+ytd-search ytd-video-renderer .metadata-snippet-container-one-line,
+ytd-search ytd-video-renderer #expandable-metadata,
+ytd-search ytd-video-renderer #buttons,
+ytd-search ytd-video-renderer #badges {
+  display: none !important;
+}
+
+.ytf-card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+  color: var(--yt-spec-text-secondary, var(--ytf-light-foreground));
+  font: 12px/1.4 system-ui, sans-serif;
+}
+
+.ytf-card-channel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: inherit;
+  text-decoration: none;
+}
+
+.ytf-card-channel:hover {
+  color: var(--ytf-accent);
+}
+
+.ytf-card-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+}
+
+/* Keep YouTube's search and account controls, but give the masthead our branding. */
+#masthead-container {
+  background: var(--ytf-dark-background) !important;
+  border-bottom: 1px solid var(--ytf-muted);
+  box-sizing: border-box;
+}
+
+ytd-masthead #background {
+  background: var(--ytf-dark-background) !important;
+  backdrop-filter: none !important;
+}
+
+ytd-masthead {
+  --yt-spec-text-primary: var(--ytf-foreground);
+  --yt-spec-text-secondary: var(--ytf-light-foreground);
+  color: var(--ytf-foreground) !important;
+}
+
+ytd-masthead #guide-button,
+ytd-masthead ytd-topbar-logo-renderer {
+  display: none !important;
+}
+
+#ytf-header-link {
+  display: flex;
+  align-items: center;
+  width: 36px;
+  height: 40px;
+  flex: none;
+  outline-offset: 2px;
+}
+
+#ytf-header-link:focus-visible {
+  outline: 2px solid var(--ytf-accent);
+}
+
+.ytf-play-mark {
+  display: block;
+  width: 100%;
+  height: auto;
+  shape-rendering: crispEdges;
+}
+
+.ytf-play-body {
+  fill: var(--ytf-accent);
+}
+
+.ytf-play-triangle {
+  fill: var(--ytf-darker-background);
+}
+
+#ytf-header-link .ytf-play-mark {
+  width: 36px;
+  flex: none;
+}
+
+ytd-masthead yt-searchbox .ytSearchboxComponentInputBox {
+  background: var(--ytf-lighter-background) !important;
+  border-color: var(--ytf-muted) !important;
+}
+
+ytd-masthead yt-searchbox .ytSearchboxComponentInput {
+  color: var(--ytf-foreground) !important;
+  font-family: "JetBrainsMono Nerd Font", monospace !important;
+}
+
+ytd-masthead yt-searchbox .ytSearchboxComponentInput::placeholder {
+  color: var(--ytf-light-foreground) !important;
+}
+
+ytd-masthead yt-searchbox .ytSearchboxComponentSearchButton {
+  background: var(--ytf-accent) !important;
+  border-color: var(--ytf-accent) !important;
+  color: var(--ytf-darker-background) !important;
+}
+
+ytd-masthead yt-searchbox .ytSearchboxComponentSearchButton:hover {
+  background: var(--ytf-bright-foreground) !important;
+}
+
+ytd-masthead #end button,
+ytd-masthead #end yt-icon {
+  color: var(--ytf-foreground) !important;
+}
+
+ytd-masthead #end .ytSpecButtonShapeNextHost {
+  background: var(--ytf-lighter-background) !important;
+  border-color: var(--ytf-muted) !important;
+  color: var(--ytf-foreground) !important;
+}
+
+#ytf-home,
+#ytf-controls {
+  color: var(--ytf-foreground);
+  font: 14px/1.4 system-ui, sans-serif;
+}
+
+#ytf-home {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  inset: 56px 0 0;
+  align-items: center;
+  justify-content: center;
+  background: var(--ytf-background);
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+html.ytf-home-route.ytf-hide-home #ytf-home {
+  display: flex;
+  inset: 0;
+}
+
+html.ytf-home-route.ytf-hide-home #masthead-container,
+html.ytf-home-route.ytf-hide-home #guide {
+  display: none !important;
+}
+
+#ytf-home-card {
+  width: min(100%, 700px);
+  text-align: center;
+}
+
+#ytf-home h1 {
+  margin: 0 0 20px;
+}
+
+#ytf-logo {
+  display: block;
+  width: min(100%, 672px);
+  aspect-ratio: 7 / 1;
+  background: var(--ytf-accent);
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  margin: 0 auto;
+}
+
+#ytf-home p {
+  color: var(--ytf-light-foreground);
+  font: 12px/1.5 "JetBrainsMono Nerd Font", monospace;
+  letter-spacing: 0.03em;
+  margin: 0 0 24px;
+}
+
+#ytf-search-form {
+  display: flex;
+  gap: 8px;
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+#ytf-search-input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--ytf-muted);
+  border-radius: 8px;
+  background: var(--ytf-lighter-background);
+  color: var(--ytf-foreground);
+  font: inherit;
+  padding: 12px 14px;
+}
+
+#ytf-search-form button,
+#ytf-settings-button {
+  border: 1px solid var(--ytf-muted);
+  border-radius: 8px;
+  background: var(--ytf-lighter-background);
+  color: var(--ytf-foreground);
+  font: inherit;
+  cursor: pointer;
+  padding: 10px 14px;
+}
+
+#ytf-search-form button {
+  border-color: var(--ytf-accent);
+  background: var(--ytf-accent);
+  color: var(--ytf-darker-background);
+  font-weight: 700;
+}
+
+#ytf-search-input:focus-visible,
+#ytf-search-form button:focus-visible,
+#ytf-settings-button:focus-visible {
+  outline: 2px solid var(--ytf-accent);
+  outline-offset: 2px;
+}
+
+#ytf-search-form button:hover,
+#ytf-settings-button:hover {
+  background: var(--ytf-muted);
+}
+
+#ytf-search-form button:hover {
+  background: var(--ytf-bright-foreground);
+}
+
+#ytf-input-error {
+  min-height: 20px;
+  color: var(--ytf-red);
+  margin-top: 8px;
+  text-align: left;
+}
+
+#ytf-controls {
+  position: fixed;
+  z-index: 1200;
+  right: 12px;
+  bottom: 12px;
+}
+
+#ytf-settings-button {
+  box-shadow: 0 4px 20px #0008;
+}
+
+#ytf-settings-panel {
+  display: none;
+  position: absolute;
+  right: 0;
+  bottom: 48px;
+  width: min(290px, calc(100vw - 24px));
+  padding: 16px;
+  border: 1px solid var(--ytf-muted);
+  border-radius: 12px;
+  background: var(--ytf-dark-background);
+  box-shadow: 0 10px 35px #0009;
+  box-sizing: border-box;
+}
+
+#ytf-controls.ytf-open #ytf-settings-panel {
+  display: block;
+}
+
+#ytf-settings-panel h2 {
+  font: 600 16px/1.3 system-ui, sans-serif;
+  margin: 0 0 12px;
+}
+
+#ytf-settings-panel label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  cursor: pointer;
+}
+
+#ytf-settings-panel input {
+  accent-color: var(--ytf-accent);
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  cursor: pointer;
+}
+
+@media (max-width: 440px) {
+  #ytf-search-form { flex-direction: column; }
+  #ytf-search-form button { width: 100%; }
+}
+
+@media (max-width: 650px) {
+  ytd-search #primary ytd-item-section-renderer > #contents > ytd-ad-slot-renderer {
+    grid-column: auto !important;
+  }
+}

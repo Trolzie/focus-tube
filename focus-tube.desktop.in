@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Focus Tube
+Comment=Search and watch YouTube without a recommendation feed
+Exec=@HOME@/.local/bin/youtube-focus %u
+Terminal=false
+Icon=@HOME@/.local/share/youtube-focus/extension/icon.svg
+Categories=AudioVideo;Video;
+StartupNotify=true
