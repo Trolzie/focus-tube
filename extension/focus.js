@@ -22,6 +22,7 @@
   let settings = { ...defaults };
   let controls;
   let gridButtons;
+  let searchTools;
   let lastPalette = "";
 
   const gridIcons = {
@@ -240,6 +241,8 @@
   function makeControls() {
     controls = document.createElement("div");
     controls.id = "ytf-controls";
+    searchTools = document.createElement("div");
+    searchTools.id = "ytf-search-tools";
     gridButtons = document.createElement("div");
     gridButtons.id = "ytf-grid-buttons";
     gridButtons.setAttribute("role", "group");
@@ -259,7 +262,17 @@
       });
       gridButtons.append(gridButton);
     }
-    controls.append(gridButtons);
+    searchTools.append(gridButtons);
+    const filterButton = document.createElement("button");
+    filterButton.id = "ytf-filter-button";
+    filterButton.type = "button";
+    filterButton.setAttribute("aria-label", "Search filters");
+    filterButton.innerHTML = '<span>Filters</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 7h18M3 17h18"/><circle cx="9" cy="7" r="3" fill="var(--ytf-lighter-background)"/><circle cx="15" cy="17" r="3" fill="var(--ytf-lighter-background)"/></svg>';
+    filterButton.addEventListener("click", () => {
+      document.querySelector("ytd-search-header-renderer #filter-button button")?.click();
+    });
+    searchTools.append(filterButton);
+    controls.append(searchTools);
     const button = document.createElement("button");
     button.id = "ytf-settings-button";
     button.type = "button";
@@ -299,10 +312,12 @@
     document.body.append(controls);
   }
 
-  function placeGridButtons() {
-    if (location.pathname !== "/results" || !gridButtons) return;
-    const filter = document.querySelector("ytd-search-header-renderer #filter-button");
-    if (filter && gridButtons.nextElementSibling !== filter) filter.before(gridButtons);
+  function placeSearchTools() {
+    if (location.pathname !== "/results" || !searchTools) return;
+    const mastheadButtons = document.querySelector("ytd-masthead #end #buttons");
+    if (mastheadButtons && searchTools.parentElement !== mastheadButtons) {
+      mastheadButtons.prepend(searchTools);
+    }
   }
 
   function mount() {
@@ -311,7 +326,7 @@
     makeControls();
     makeHeader();
     applySettings();
-    placeGridButtons();
+    placeSearchTools();
     focusHomeInput();
     decorateResults();
   }
@@ -320,7 +335,7 @@
   syncTheme();
   window.setInterval(syncTheme, 1000);
   window.setInterval(decorateResults, 1000);
-  window.setInterval(placeGridButtons, 1000);
+  window.setInterval(placeSearchTools, 1000);
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden) syncTheme();
   });
@@ -343,7 +358,7 @@
   document.addEventListener("yt-navigate-finish", () => {
     makeHeader();
     applySettings();
-    placeGridButtons();
+    placeSearchTools();
     focusHomeInput();
     decorateResults();
   });

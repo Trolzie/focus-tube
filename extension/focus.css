@@ -58,7 +58,7 @@ html[data-ytf-grid-size="extra-large"] ytd-search #primary ytd-section-list-rend
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 600px), 1fr));
 }
 
-ytd-search-header-renderer #about-these-results {
+html.ytf-results-route ytd-search-header-renderer {
   display: none !important;
 }
 
@@ -429,7 +429,8 @@ html.ytf-home-route.ytf-hide-home #guide {
 
 #ytf-search-form button,
 #ytf-settings-button,
-#ytf-grid-buttons button {
+#ytf-grid-buttons button,
+#ytf-filter-button {
   border: 1px solid var(--ytf-muted);
   border-radius: 8px;
   background: var(--ytf-lighter-background);
@@ -449,14 +450,16 @@ html.ytf-home-route.ytf-hide-home #guide {
 #ytf-search-input:focus-visible,
 #ytf-search-form button:focus-visible,
 #ytf-settings-button:focus-visible,
-#ytf-grid-buttons button:focus-visible {
+#ytf-grid-buttons button:focus-visible,
+#ytf-filter-button:focus-visible {
   outline: 2px solid var(--ytf-accent);
   outline-offset: 2px;
 }
 
 #ytf-search-form button:hover,
 #ytf-settings-button:hover,
-#ytf-grid-buttons button:hover {
+#ytf-grid-buttons button:hover,
+#ytf-filter-button:hover {
   background: var(--ytf-muted);
 }
 
@@ -482,18 +485,25 @@ html.ytf-home-route.ytf-hide-home #guide {
 }
 
 #ytf-settings-button,
-#ytf-grid-buttons button {
+#ytf-grid-buttons button,
+#ytf-filter-button {
   box-shadow: 0 4px 20px #0008;
 }
 
-#ytf-grid-buttons {
+#ytf-search-tools {
   display: none;
-  gap: 4px;
-  margin-right: 8px;
+  align-items: center;
+  gap: 8px;
+  margin-right: 16px;
 }
 
-html.ytf-results-route ytd-search-header-renderer #ytf-grid-buttons {
+html.ytf-results-route ytd-masthead #ytf-search-tools {
   display: flex;
+}
+
+#ytf-grid-buttons {
+  display: flex;
+  gap: 4px;
 }
 
 #ytf-grid-buttons button {
@@ -510,10 +520,28 @@ html.ytf-results-route ytd-search-header-renderer #ytf-grid-buttons {
   height: 20px;
 }
 
+#ytf-filter-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 8px 12px;
+  white-space: nowrap;
+}
+
+#ytf-filter-button svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
 #ytf-grid-buttons button[aria-pressed="true"] {
   border-color: var(--ytf-accent);
   background: var(--ytf-accent);
-  color: var(--ytf-darker-background);
+}
+
+ytd-masthead #end #ytf-grid-buttons button[aria-pressed="true"] {
+  color: var(--ytf-darker-background) !important;
 }
 
 #ytf-settings-panel {
