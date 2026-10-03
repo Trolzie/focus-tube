@@ -59,7 +59,7 @@ Your choices stay in Focus Tube's dedicated browser profile.
 
 ### Pacman-managed package
 
-The AUR listing is pending while new AUR account registration is closed. **We plan to publish `focus-tube-git` to the AUR as soon as registration reopens**, so it can be found in Omarchy's **Install → AUR** menu. The remaining steps are tracked in the [roadmap](docs/ROADMAP.md). In the meantime, build the package from the recipe in this repository:
+The AUR listing is pending. Publishing `focus-tube-git` and verifying installation through Omarchy's **Install → AUR** menu are tracked in the [roadmap](docs/ROADMAP.md). In the meantime, build the package from the recipe in this repository:
 
 ```bash
 omarchy pkg add base-devel git
@@ -102,6 +102,8 @@ git pull
 cd packaging/aur
 makepkg -si
 ```
+
+`git pull` updates the package recipe; `makepkg` fetches the current application source from GitHub. To test an unmerged application change, point the recipe at your branch or a local checkout as described in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 For the local install, from your `focus-tube` checkout:
 

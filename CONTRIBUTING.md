@@ -20,6 +20,8 @@ YouTube changes its page structure often. A precise example helps find which sel
 4. Run `./install.sh` to install your local changes, then close and reopen Focus Tube to load extension code.
 5. Open a pull request describing the change and how you checked it. Include a before and after screenshot when the interface changes.
 
+For launcher changes, run `bash tests/launcher.sh` as well.
+
 Keep changes consistent with the project's aim: less clutter, controls that are easy to understand, and colors that follow Omarchy. Please avoid committing browser profiles, account data, or generated local files.
 
 The Arch package recipe lives in `packaging/aur/PKGBUILD`. It fetches the main branch from GitHub, so testing unmerged changes requires temporarily pointing its `source` at your branch or a local checkout. Contributions are covered by the project's [MIT license](LICENSE).

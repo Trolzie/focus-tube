@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-app_dir="$HOME/.local/share/youtube-focus"
+app_dir="${FOCUS_TUBE_APP_DIR:-$HOME/.local/share/youtube-focus}"
 profile_dir="$app_dir/profile"
 extension_dir="$app_dir/extension"
 url="${1:-https://www.youtube.com/}"
@@ -9,6 +9,11 @@ url="${1:-https://www.youtube.com/}"
 case "$url" in
   https://youtube.com/*|https://www.youtube.com/*|https://m.youtube.com/*|https://youtu.be/*) ;;
   *) printf 'Focus Tube accepts only HTTPS YouTube links.\n' >&2; exit 2 ;;
+esac
+
+# The extension runs on the desktop host, not m.youtube.com.
+case "$url" in
+  https://m.youtube.com/*) url="https://www.youtube.com/${url#https://m.youtube.com/}" ;;
 esac
 
 if [[ ! -f "$extension_dir/manifest.json" ]]; then
