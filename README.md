@@ -27,7 +27,7 @@ SUPER + SHIFT + Y  →  SEARCH  →  WATCH  →  BACK TO WORK
 
 ![Focus Tube landing page with a search field](assets/landing.png)
 
-**Scan the results.** Each card keeps the thumbnail, title, channel, date, and views together. Choose **Compact**, **Large**, or **Extra large** beside Focus; your card size is saved. The next results begin loading before you reach the end of the grid.
+**Scan the results.** Each card keeps the thumbnail, title, channel, date, and views together. Use the three grid icons beside **Filters** to choose Compact, Large, or Extra large cards; your choice is saved. The next results begin loading before you reach the end of the grid.
 
 ![Focus Tube search results in a compact grid](assets/results.png)
 

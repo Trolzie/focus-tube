@@ -21,7 +21,14 @@
   };
   let settings = { ...defaults };
   let controls;
+  let gridButtons;
   let lastPalette = "";
+
+  const gridIcons = {
+    compact: '<path d="M2 2h5v5H2zM9 2h5v5H9zM16 2h5v5h-5zM2 9h5v5H2zM9 9h5v5H9zM16 9h5v5h-5zM2 16h5v5H2zM9 16h5v5H9zM16 16h5v5h-5z"/>',
+    large: '<path d="M2 2h8v8H2zM13 2h8v8h-8zM2 13h8v8H2zM13 13h8v8h-8z"/>',
+    "extra-large": '<path d="M2 2h19v19H2z"/>',
+  };
 
   function decorateResults() {
     if (location.pathname !== "/results") return;
@@ -145,7 +152,7 @@
       for (const key of Object.keys(labels)) {
         controls.querySelector(`[data-setting="${key}"]`).checked = settings[key];
       }
-      for (const button of controls.querySelectorAll("[data-grid-size]")) {
+      for (const button of gridButtons.querySelectorAll("[data-grid-size]")) {
         button.setAttribute("aria-pressed", String(button.dataset.gridSize === settings.gridSize));
       }
     }
@@ -233,7 +240,7 @@
   function makeControls() {
     controls = document.createElement("div");
     controls.id = "ytf-controls";
-    const gridButtons = document.createElement("div");
+    gridButtons = document.createElement("div");
     gridButtons.id = "ytf-grid-buttons";
     gridButtons.setAttribute("role", "group");
     gridButtons.setAttribute("aria-label", "Search card size");
@@ -241,7 +248,9 @@
       const gridButton = document.createElement("button");
       gridButton.type = "button";
       gridButton.dataset.gridSize = size;
-      gridButton.textContent = label;
+      gridButton.setAttribute("aria-label", `${label} cards`);
+      gridButton.title = `${label} cards`;
+      gridButton.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round">${gridIcons[size]}</svg>`;
       gridButton.setAttribute("aria-pressed", String(settings.gridSize === size));
       gridButton.addEventListener("click", () => {
         settings.gridSize = size;
@@ -290,12 +299,19 @@
     document.body.append(controls);
   }
 
+  function placeGridButtons() {
+    if (location.pathname !== "/results" || !gridButtons) return;
+    const filter = document.querySelector("ytd-search-header-renderer #filter-button");
+    if (filter && gridButtons.nextElementSibling !== filter) filter.before(gridButtons);
+  }
+
   function mount() {
     if (!document.body || document.getElementById("ytf-controls")) return;
     makeHome();
     makeControls();
     makeHeader();
     applySettings();
+    placeGridButtons();
     focusHomeInput();
     decorateResults();
   }
@@ -304,6 +320,7 @@
   syncTheme();
   window.setInterval(syncTheme, 1000);
   window.setInterval(decorateResults, 1000);
+  window.setInterval(placeGridButtons, 1000);
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden) syncTheme();
   });
@@ -326,6 +343,7 @@
   document.addEventListener("yt-navigate-finish", () => {
     makeHeader();
     applySettings();
+    placeGridButtons();
     focusHomeInput();
     decorateResults();
   });

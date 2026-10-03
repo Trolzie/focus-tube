@@ -58,6 +58,10 @@ html[data-ytf-grid-size="extra-large"] ytd-search #primary ytd-section-list-rend
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 600px), 1fr));
 }
 
+ytd-search-header-renderer #about-these-results {
+  display: none !important;
+}
+
 ytd-search #primary ytd-section-list-renderer > #contents > ytd-item-section-renderer,
 ytd-search #primary ytd-item-section-renderer > #contents,
 ytd-search #primary ytd-item-section-renderer > #header,
@@ -485,14 +489,25 @@ html.ytf-home-route.ytf-hide-home #guide {
 #ytf-grid-buttons {
   display: none;
   gap: 4px;
+  margin-right: 8px;
 }
 
-html.ytf-results-route #ytf-grid-buttons {
+html.ytf-results-route ytd-search-header-renderer #ytf-grid-buttons {
   display: flex;
 }
 
 #ytf-grid-buttons button {
-  padding: 10px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+}
+
+#ytf-grid-buttons svg {
+  display: block;
+  width: 20px;
+  height: 20px;
 }
 
 #ytf-grid-buttons button[aria-pressed="true"] {
