@@ -8,8 +8,9 @@
     showLeftMenu: false,
     showEndCards: false,
     autoplayNext: false,
-    largeGrid: false,
+    gridSize: "compact",
   };
+  const gridSizes = ["compact", "large", "extra-large"];
   const labels = {
     showHomeFeed: "Home feed",
     showSuggestions: "Watch suggestions",
@@ -138,14 +139,15 @@
     root.classList.toggle("ytf-hide-endcards", !settings.showEndCards);
     root.classList.toggle("ytf-home-route", location.pathname === "/");
     root.classList.toggle("ytf-results-route", location.pathname === "/results");
-    root.classList.toggle("ytf-large-grid", settings.largeGrid);
+    root.dataset.ytfGridSize = settings.gridSize;
 
     if (controls) {
       for (const key of Object.keys(labels)) {
         controls.querySelector(`[data-setting="${key}"]`).checked = settings[key];
       }
-      controls.querySelector("#ytf-grid-button")
-        .setAttribute("aria-pressed", String(settings.largeGrid));
+      for (const button of controls.querySelectorAll("[data-grid-size]")) {
+        button.setAttribute("aria-pressed", String(button.dataset.gridSize === settings.gridSize));
+      }
     }
     enforceAutoplay();
   }
@@ -231,18 +233,24 @@
   function makeControls() {
     controls = document.createElement("div");
     controls.id = "ytf-controls";
-    const gridButton = document.createElement("button");
-    gridButton.id = "ytf-grid-button";
-    gridButton.type = "button";
-    gridButton.textContent = "Large cards";
-    gridButton.setAttribute("aria-label", "Large search cards");
-    gridButton.setAttribute("aria-pressed", String(settings.largeGrid));
-    gridButton.addEventListener("click", () => {
-      settings.largeGrid = !settings.largeGrid;
-      chrome.storage.local.set({ largeGrid: settings.largeGrid });
-      applySettings();
-    });
-    controls.append(gridButton);
+    const gridButtons = document.createElement("div");
+    gridButtons.id = "ytf-grid-buttons";
+    gridButtons.setAttribute("role", "group");
+    gridButtons.setAttribute("aria-label", "Search card size");
+    for (const [size, label] of [["compact", "Compact"], ["large", "Large"], ["extra-large", "Extra large"]]) {
+      const gridButton = document.createElement("button");
+      gridButton.type = "button";
+      gridButton.dataset.gridSize = size;
+      gridButton.textContent = label;
+      gridButton.setAttribute("aria-pressed", String(settings.gridSize === size));
+      gridButton.addEventListener("click", () => {
+        settings.gridSize = size;
+        chrome.storage.local.set({ gridSize: size });
+        applySettings();
+      });
+      gridButtons.append(gridButton);
+    }
+    controls.append(gridButtons);
     const button = document.createElement("button");
     button.id = "ytf-settings-button";
     button.type = "button";
@@ -299,8 +307,11 @@
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden) syncTheme();
   });
-  chrome.storage.local.get(defaults, (saved) => {
+  chrome.storage.local.get([...Object.keys(defaults), "largeGrid"], (saved) => {
     settings = { ...defaults, ...saved };
+    settings.gridSize = gridSizes.includes(saved.gridSize)
+      ? saved.gridSize
+      : saved.largeGrid ? "large" : "compact";
     applySettings();
   });
   chrome.storage.onChanged.addListener((changes, area) => {

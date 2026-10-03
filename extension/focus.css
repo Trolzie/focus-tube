@@ -50,8 +50,12 @@ ytd-search #primary ytd-section-list-renderer > #contents {
   align-items: start;
 }
 
-html.ytf-large-grid ytd-search #primary ytd-section-list-renderer > #contents {
+html[data-ytf-grid-size="large"] ytd-search #primary ytd-section-list-renderer > #contents {
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 400px), 1fr));
+}
+
+html[data-ytf-grid-size="extra-large"] ytd-search #primary ytd-section-list-renderer > #contents {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 600px), 1fr));
 }
 
 ytd-search #primary ytd-section-list-renderer > #contents > ytd-item-section-renderer,
@@ -421,7 +425,7 @@ html.ytf-home-route.ytf-hide-home #guide {
 
 #ytf-search-form button,
 #ytf-settings-button,
-#ytf-grid-button {
+#ytf-grid-buttons button {
   border: 1px solid var(--ytf-muted);
   border-radius: 8px;
   background: var(--ytf-lighter-background);
@@ -441,14 +445,14 @@ html.ytf-home-route.ytf-hide-home #guide {
 #ytf-search-input:focus-visible,
 #ytf-search-form button:focus-visible,
 #ytf-settings-button:focus-visible,
-#ytf-grid-button:focus-visible {
+#ytf-grid-buttons button:focus-visible {
   outline: 2px solid var(--ytf-accent);
   outline-offset: 2px;
 }
 
 #ytf-search-form button:hover,
 #ytf-settings-button:hover,
-#ytf-grid-button:hover {
+#ytf-grid-buttons button:hover {
   background: var(--ytf-muted);
 }
 
@@ -474,19 +478,24 @@ html.ytf-home-route.ytf-hide-home #guide {
 }
 
 #ytf-settings-button,
-#ytf-grid-button {
+#ytf-grid-buttons button {
   box-shadow: 0 4px 20px #0008;
 }
 
-#ytf-grid-button {
+#ytf-grid-buttons {
   display: none;
+  gap: 4px;
 }
 
-html.ytf-results-route #ytf-grid-button {
-  display: block;
+html.ytf-results-route #ytf-grid-buttons {
+  display: flex;
 }
 
-#ytf-grid-button[aria-pressed="true"] {
+#ytf-grid-buttons button {
+  padding: 10px;
+}
+
+#ytf-grid-buttons button[aria-pressed="true"] {
   border-color: var(--ytf-accent);
   background: var(--ytf-accent);
   color: var(--ytf-darker-background);
