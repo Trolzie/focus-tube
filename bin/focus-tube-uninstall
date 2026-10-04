@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if (( EUID == 0 )); then
+  printf 'Run Focus Tube uninstall as the user who installed it, without sudo.\n' >&2
+  exit 1
+fi
+
+if [[ -z "${HOME:-}" || "$HOME" == / ]]; then
+  printf 'Cannot locate your home directory.\n' >&2
+  exit 1
+fi
+
+if command -v pacman >/dev/null 2>&1 && pacman -Qq focus-tube-git >/dev/null 2>&1; then
+  if ! command -v sudo >/dev/null 2>&1; then
+    printf 'sudo is needed to remove the focus-tube-git package.\n' >&2
+    exit 1
+  fi
+  sudo pacman -R focus-tube-git
+fi
+
+rm -rf -- "$HOME/.local/share/youtube-focus"
+rm -f -- \
+  "$HOME/.config/omarchy/hooks/theme-set.d/focus-tube-theme" \
+  "$HOME/.local/share/icons/hicolor/scalable/apps/focus-tube.svg" \
+  "$HOME/.local/share/applications/Focus Tube.desktop" \
+  "$HOME/.local/bin/youtube-focus" \
+  "$HOME/.local/bin/focus-tube-uninstall"
+
+printf 'Focus Tube and its saved browser profile were removed for %s.\n' "$HOME"

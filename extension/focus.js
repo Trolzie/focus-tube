@@ -24,6 +24,9 @@
   let gridButtons;
   let searchTools;
   let lastPalette = "";
+  const cardSelector = "ytd-search ytd-video-renderer, ytd-search yt-lockup-view-model";
+  const pendingCards = new Set();
+  let cardFrame = 0;
 
   const gridIcons = {
     compact: '<path d="M2 2h5v5H2zM9 2h5v5H9zM16 2h5v5h-5zM2 9h5v5H2zM9 9h5v5H9zM16 9h5v5h-5zM2 16h5v5H2zM9 16h5v5H9zM16 16h5v5h-5z"/>',
@@ -31,11 +34,10 @@
     "extra-large": '<path d="M2 2h19v19H2z"/>',
   };
 
-  function decorateResults() {
+  function decorateResults(cards = document.querySelectorAll(cardSelector)) {
     if (location.pathname !== "/results") return;
-    for (const card of document.querySelectorAll(
-      "ytd-search ytd-video-renderer, ytd-search yt-lockup-view-model"
-    )) {
+    for (const card of cards) {
+      if (!card.isConnected) continue;
       const lockup = card.matches("yt-lockup-view-model");
       const wrapper = card.querySelector(
         lockup ? ".ytLockupViewModelMetadata" : ".text-wrapper"
@@ -80,6 +82,50 @@
       }
       details.replaceChildren(channelLink, stats);
       card.dataset.ytfDetails = signature;
+    }
+  }
+
+  function queueCard(card) {
+    if (!card || location.pathname !== "/results") return;
+    pendingCards.add(card);
+    if (cardFrame) return;
+    cardFrame = requestAnimationFrame(() => {
+      cardFrame = 0;
+      decorateResults(pendingCards);
+      pendingCards.clear();
+    });
+  }
+
+  function observeChanges(records) {
+    for (const record of records) {
+      const target = record.target.nodeType === Node.ELEMENT_NODE
+        ? record.target : record.target.parentElement;
+      if (location.pathname === "/results" && !target?.closest(".ytf-card-details")) {
+        const card = target?.closest(cardSelector);
+        queueCard(card);
+        for (const node of record.addedNodes || []) {
+          if (node.nodeType !== Node.ELEMENT_NODE) continue;
+          if (card) continue;
+          if (node.matches(cardSelector)) {
+            queueCard(node);
+            continue;
+          }
+          if (node.closest("ytd-search") || node.matches("ytd-search, ytd-page-manager, ytd-app")) {
+            for (const card of node.querySelectorAll(cardSelector)) queueCard(card);
+          }
+        }
+      }
+      if (location.pathname === "/watch" &&
+          (target?.matches(".ytp-autonav-toggle-button") ||
+           [...(record.addedNodes || [])].some((node) =>
+             node.nodeType === Node.ELEMENT_NODE &&
+             (node.matches(".ytp-autonav-toggle-button") || node.querySelector(".ytp-autonav-toggle-button"))))) {
+        enforceAutoplay();
+      }
+    }
+    if (location.pathname === "/results" && searchTools &&
+        (searchTools.parentElement === controls || !searchTools.isConnected)) {
+      placeSearchTools();
     }
   }
 
@@ -333,9 +379,16 @@
 
   applySettings();
   syncTheme();
-  window.setInterval(syncTheme, 1000);
-  window.setInterval(decorateResults, 1000);
-  window.setInterval(placeSearchTools, 1000);
+  window.setInterval(() => {
+    if (!document.hidden) syncTheme();
+  }, 1000);
+  new MutationObserver(observeChanges).observe(document.documentElement, {
+    childList: true,
+    characterData: true,
+    attributes: true,
+    attributeFilter: ["aria-checked", "aria-pressed", "data-is-on", "href"],
+    subtree: true,
+  });
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden) syncTheme();
   });
@@ -366,5 +419,4 @@
     applySettings();
     focusHomeInput();
   });
-  window.setInterval(enforceAutoplay, 2000);
 })();

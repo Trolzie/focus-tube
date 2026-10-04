@@ -72,11 +72,6 @@ ytd-search #primary ytd-item-section-renderer > #continuations {
 
 ytd-search #primary ytd-continuation-item-renderer {
   grid-column: 1 / -1;
-  /* Reach YouTube's next batch before the viewer reaches the grid's end. */
-  margin-top: -900px !important;
-  padding-top: 900px !important;
-  box-sizing: border-box;
-  pointer-events: none;
 }
 
 ytd-search #primary ytd-item-section-renderer > #contents > :not(ytd-video-renderer) {
@@ -348,6 +343,12 @@ ytd-masthead #end yt-icon {
   color: var(--ytf-foreground) !important;
 }
 
+ytd-masthead #search-button-narrow,
+ytd-masthead #search-button-narrow #button,
+ytd-masthead #search-button-narrow yt-icon {
+  color: var(--ytf-foreground) !important;
+}
+
 ytd-masthead #end .ytSpecButtonShapeNextHost {
   background: var(--ytf-lighter-background) !important;
   border-color: var(--ytf-muted) !important;
@@ -587,4 +588,26 @@ ytd-masthead #end #ytf-grid-buttons button[aria-pressed="true"] {
 @media (max-width: 440px) {
   #ytf-search-form { flex-direction: column; }
   #ytf-search-form button { width: 100%; }
+}
+
+@media (max-width: 700px) {
+  html.ytf-results-route ytd-masthead #ytf-search-tools {
+    position: fixed;
+    z-index: 1000;
+    top: 56px;
+    left: 0;
+    right: 0;
+    height: 48px;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 4px 12px;
+    margin: 0;
+    background: var(--ytf-dark-background);
+    border-bottom: 1px solid var(--ytf-muted);
+  }
+
+  html.ytf-results-route ytd-search {
+    display: block;
+    padding-top: 48px;
+  }
 }

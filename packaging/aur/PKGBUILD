@@ -23,6 +23,7 @@ package() {
   local root="$srcdir/focus-tube"
 
   install -Dm755 "$root/bin/focus-tube" "$pkgdir/usr/bin/focus-tube"
+  install -Dm755 "$root/bin/focus-tube-uninstall" "$pkgdir/usr/bin/focus-tube-uninstall"
   install -Dm755 "$root/bin/youtube-focus" "$pkgdir/usr/share/focus-tube/bin/youtube-focus"
   install -Dm755 "$root/hooks/focus-tube-theme" "$pkgdir/usr/share/focus-tube/hooks/focus-tube-theme"
   install -Dm644 "$root/theme.py" "$pkgdir/usr/share/focus-tube/theme.py"

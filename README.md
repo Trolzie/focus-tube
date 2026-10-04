@@ -68,7 +68,7 @@ cd focus-tube/packaging/aur
 makepkg -si
 ```
 
-Launch **Focus Tube** from the app launcher, or run `focus-tube`. The package installs the app through pacman; your theme files, Focus choices, and browser profile remain in your home directory. First launch sets up the Omarchy theme hook.
+Launch **Focus Tube** from the app launcher, or run `focus-tube`. The package installs the app through pacman; the browser profile and generated theme files live in your home directory. First launch sets up the Omarchy theme hook.
 
 ### Local install
 
@@ -113,6 +113,22 @@ git pull
 ```
 
 Close and reopen Focus Tube to load extension updates. Your browser profile and Focus choices are kept.
+
+## Uninstall
+
+Close Focus Tube before uninstalling. For the pacman-managed package, run:
+
+```bash
+focus-tube-uninstall
+```
+
+For the local install, run:
+
+```bash
+~/.local/bin/focus-tube-uninstall
+```
+
+The command removes `focus-tube-git` through pacman if installed, then deletes the local launcher, desktop entry, Omarchy theme hook, generated icon, and `~/.local/share/youtube-focus/`. That directory contains the dedicated Chromium profile, including saved Focus choices, cookies, and browsing data. The command also removes itself. If you added the optional shortcut above, remove those two lines from `~/.config/hypr/bindings.lua`; they are edits you made to your own configuration.
 
 ## Contribute
 
