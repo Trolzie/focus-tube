@@ -24,9 +24,12 @@
   let gridButtons;
   let searchTools;
   let lastPalette = "";
-  const cardSelector = "ytd-search ytd-video-renderer, ytd-search yt-lockup-view-model";
+  const cardSelector = "ytd-search ytd-video-renderer, ytd-search yt-lockup-view-model, ytd-search ytd-channel-renderer";
   const pendingCards = new Set();
+  const channelInfo = new Map();
   let cardFrame = 0;
+  let dedupeFrame = 0;
+  let prefetchFrame = 0;
 
   const gridIcons = {
     compact: '<path d="M2 2h5v5H2zM9 2h5v5H9zM16 2h5v5h-5zM2 9h5v5H2zM9 9h5v5H9zM16 9h5v5h-5zM2 16h5v5H2zM9 16h5v5H9zM16 16h5v5h-5z"/>',
@@ -34,11 +37,129 @@
     "extra-large": '<path d="M2 2h19v19H2z"/>',
   };
 
+  function loadChannelInfo(path) {
+    return new Promise((resolve) => {
+      const id = crypto.randomUUID();
+      const timeout = setTimeout(() => finish(null), 32000);
+      function finish(info) {
+        clearTimeout(timeout);
+        window.removeEventListener("message", onMessage);
+        resolve(info);
+      }
+      function onMessage(event) {
+        if (event.source === window && event.origin === location.origin &&
+            event.data?.type === "ytf-channel-info-response" && event.data.id === id) {
+          finish(event.data.info);
+        }
+      }
+      window.addEventListener("message", onMessage);
+      window.postMessage({ type: "ytf-channel-info-request", id, path }, location.origin);
+    });
+  }
+
+  function channelName(card, path) {
+    const title = card.querySelector("#channel-title a")?.textContent.trim() ||
+      card.querySelector("#channel-title")?.textContent.trim() ||
+      card.querySelector("#subscribers")?.textContent.trim() || path.slice(1);
+    const words = title.split(/\s+/);
+    const middle = words.length / 2;
+    if (words.length % 2 === 0 &&
+        words.slice(0, middle).join(" ") === words.slice(middle).join(" ")) {
+      return words.slice(0, middle).join(" ");
+    }
+    return title;
+  }
+
+  function decorateChannel(card) {
+    const link = card.querySelector("#main-link[href]");
+    if (!link) return;
+    const url = new URL(link.href);
+    if (url.origin !== location.origin || !/^\/(?:@|channel\/|c\/|user\/)/.test(url.pathname)) return;
+
+    let preview = card.querySelector(":scope > .ytf-channel-preview");
+    if (!preview) {
+      preview = document.createElement("div");
+      preview.className = "ytf-channel-preview";
+      card.prepend(preview);
+    }
+    let hero = card.querySelector(".ytf-channel-hero");
+    if (!hero) {
+      hero = document.createElement("a");
+      hero.className = "ytf-channel-hero";
+      hero.setAttribute("aria-label", "Open channel");
+    }
+    if (hero.parentElement !== preview) preview.prepend(hero);
+    const content = card.querySelector("#content-section");
+    if (content && content.parentElement !== preview) preview.append(content);
+    if (hero.href !== url.href) hero.href = url.href;
+
+    let caption = card.querySelector(":scope > .ytf-channel-caption");
+    if (!caption) {
+      caption = document.createElement("div");
+      caption.className = "ytf-channel-caption";
+      const title = document.createElement("a");
+      title.className = "ytf-channel-caption-title";
+      const subtitle = document.createElement("div");
+      subtitle.className = "ytf-channel-caption-subtitle";
+      caption.append(title, subtitle);
+      card.append(caption);
+    }
+    const title = caption.querySelector(".ytf-channel-caption-title");
+    const subtitle = caption.querySelector(".ytf-channel-caption-subtitle");
+    const name = channelName(card, url.pathname);
+    const description = card.querySelector("#description")?.textContent.trim() || "";
+    if (title.href !== url.href) title.href = url.href;
+    if (title.textContent !== name) title.textContent = name;
+    if (description && subtitle.textContent !== description) subtitle.textContent = description;
+
+    if (card.dataset.ytfChannel === url.pathname) return;
+    hero.replaceChildren();
+    card.querySelector(".ytf-channel-video-count")?.remove();
+    card.dataset.ytfChannel = url.pathname;
+
+    if (!channelInfo.has(url.pathname)) {
+      channelInfo.set(url.pathname, loadChannelInfo(url.pathname));
+    }
+    channelInfo.get(url.pathname).then((info) => {
+      if (!info || card.dataset.ytfChannel !== url.pathname) return;
+      if (typeof info.banner === "string" && /^https:\/\//.test(info.banner)) {
+        const image = document.createElement("img");
+        image.src = info.banner;
+        image.alt = "";
+        hero.replaceChildren(image);
+      }
+      if (info.videos) {
+        const metadata = card.querySelector("#metadata");
+        if (!metadata) return;
+        let count = metadata.querySelector(".ytf-channel-video-count");
+        if (!count) {
+          count = document.createElement("span");
+          count.className = "ytf-channel-video-count";
+          metadata.append(count);
+        }
+        count.textContent = info.videos;
+      }
+      if (!description && typeof info.description === "string" &&
+          !subtitle.textContent && info.description.trim()) {
+        subtitle.textContent = info.description.trim();
+      }
+    });
+  }
+
   function decorateResults(cards = document.querySelectorAll(cardSelector)) {
     if (location.pathname !== "/results") return;
     for (const card of cards) {
       if (!card.isConnected) continue;
+      if (card.matches("ytd-channel-renderer")) {
+        decorateChannel(card);
+        continue;
+      }
       const lockup = card.matches("yt-lockup-view-model");
+      if (lockup) {
+        const title = card.querySelector(".ytLockupMetadataViewModelTitle");
+        const fullTitle = title?.textContent.trim();
+        if (fullTitle && title.title !== fullTitle) title.title = fullTitle;
+      }
       const wrapper = card.querySelector(
         lockup ? ".ytLockupViewModelMetadata" : ".text-wrapper"
       );
@@ -85,6 +206,51 @@
     }
   }
 
+  function dedupeResults() {
+    if (location.pathname !== "/results") return;
+    const seen = new Set();
+    for (const card of document.querySelectorAll(
+      "ytd-search #primary ytd-video-renderer, ytd-search #primary yt-lockup-view-model, ytd-search #primary ytd-channel-renderer"
+    )) {
+      let key;
+      if (card.matches("ytd-channel-renderer")) {
+        const link = card.querySelector("#main-link[href]");
+        if (link) {
+          const url = new URL(link.href);
+          if (url.origin === location.origin) {
+            const path = url.pathname.match(/^\/(?:@[^/]+|channel\/[^/]+|c\/[^/]+|user\/[^/]+)/)?.[0];
+            if (path) key = `channel:${path.startsWith("/@") ? path.toLowerCase() : path}`;
+          }
+        }
+      } else {
+        const link = card.querySelector('a[href*="/watch?"]');
+        const videoId = link && new URL(link.href).searchParams.get("v");
+        if (videoId) key = `video:${videoId}`;
+      }
+      card.toggleAttribute("data-ytf-duplicate-result", !!key && seen.has(key));
+      if (key) seen.add(key);
+    }
+  }
+
+  function queueDedupe() {
+    if (dedupeFrame || location.pathname !== "/results") return;
+    dedupeFrame = requestAnimationFrame(() => {
+      dedupeFrame = 0;
+      dedupeResults();
+    });
+  }
+
+  function queuePrefetch() {
+    if (prefetchFrame || location.pathname !== "/results") return;
+    prefetchFrame = requestAnimationFrame(() => {
+      prefetchFrame = 0;
+      const scroll = document.scrollingElement;
+      if (scroll && scroll.scrollHeight < scroll.scrollTop + innerHeight * 1.75) {
+        window.postMessage({ type: "ytf-prefetch-results" }, location.origin);
+      }
+    });
+  }
+
   function queueCard(card) {
     if (!card || location.pathname !== "/results") return;
     pendingCards.add(card);
@@ -103,6 +269,7 @@
       if (location.pathname === "/results" && !target?.closest(".ytf-card-details")) {
         const card = target?.closest(cardSelector);
         queueCard(card);
+        if (card && record.type === "attributes" && record.attributeName === "href") queueDedupe();
         for (const node of record.addedNodes || []) {
           if (node.nodeType !== Node.ELEMENT_NODE) continue;
           if (card) continue;
@@ -113,6 +280,13 @@
           if (node.closest("ytd-search") || node.matches("ytd-search, ytd-page-manager, ytd-app")) {
             for (const card of node.querySelectorAll(cardSelector)) queueCard(card);
           }
+        }
+        if ([...record.addedNodes, ...record.removedNodes].some((node) =>
+          node.nodeType === Node.ELEMENT_NODE &&
+          (node.matches("ytd-video-renderer, yt-lockup-view-model, ytd-channel-renderer, ytd-continuation-item-renderer") ||
+           node.querySelector("ytd-video-renderer, yt-lockup-view-model, ytd-channel-renderer, ytd-continuation-item-renderer")))) {
+          queueDedupe();
+          queuePrefetch();
         }
       }
       if (location.pathname === "/watch" &&
@@ -375,6 +549,8 @@
     placeSearchTools();
     focusHomeInput();
     decorateResults();
+    dedupeResults();
+    queuePrefetch();
   }
 
   applySettings();
@@ -392,6 +568,8 @@
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden) syncTheme();
   });
+  window.addEventListener("scroll", queuePrefetch, { passive: true });
+  window.addEventListener("resize", queuePrefetch);
   chrome.storage.local.get([...Object.keys(defaults), "largeGrid"], (saved) => {
     settings = { ...defaults, ...saved };
     settings.gridSize = gridSizes.includes(saved.gridSize)
@@ -414,6 +592,8 @@
     placeSearchTools();
     focusHomeInput();
     decorateResults();
+    dedupeResults();
+    queuePrefetch();
   });
   window.addEventListener("popstate", () => {
     applySettings();

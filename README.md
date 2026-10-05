@@ -13,7 +13,7 @@
 
 ## The idea
 
-Focus Tube was built as a way to remove the clutter and distractions around YouTube videos. It opens YouTube in its own Chromium app window, puts search results in a compact grid, and lets you control the parts of the site that pull you away.
+Focus Tube was built as a way to remove the clutter and distractions around YouTube videos. It opens YouTube in its own Chromium app window, puts videos and visually distinct channel cards in a compact search grid, and lets you control the parts of the site that pull you away.
 
 This is a work in progress. The ambition is to make Focus Tube feel seamless with Omarchy, from its keyboard shortcut and tiled window to its colors following your theme (as they should! :P).
 
