@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Focus Tube search card regression</title></head>
+<body>
+  <ytd-masthead><div id="start"></div><div id="end"><div id="buttons"></div></div></ytd-masthead>
+  <ytd-search><div id="primary"></div></ytd-search>
+  <pre id="result">RUNNING</pre>
+  <script>
+    window.chrome = {
+      runtime: { getURL: (path) => `/extension/${path}` },
+      storage: {
+        local: { get: (_keys, callback) => callback({}), set: () => {} },
+        onChanged: { addListener: () => {} },
+      },
+    };
+  </script>
+  <script src="/extension/channel-data.js"></script>
+  <script src="/extension/focus.js"></script>
+  <script>
+    const primary = document.querySelector("ytd-search #primary");
+    const channel = document.createElement("ytd-channel-renderer");
+    channel.innerHTML = `
+      <a id="main-link" href="/@first"></a>
+      <div id="content-section">
+        <div id="channel-title"><a href="/@first">First Channel</a></div>
+        <div id="description">First description</div>
+        <div id="metadata"></div>
+      </div>`;
+    const firstVideo = document.createElement("ytd-video-renderer");
+    firstVideo.innerHTML = `
+      <a href="/watch?v=same-video"></a>
+      <div class="text-wrapper"><div id="channel-info"><ytd-channel-name><a href="/@first">First Channel</a></ytd-channel-name></div>
+        <ytd-video-meta-block><div id="metadata-line"><span class="inline-metadata-item">2 days ago</span><span class="inline-metadata-item">10 views</span></div></ytd-video-meta-block>
+      </div>`;
+    const duplicateVideo = firstVideo.cloneNode(true);
+    const firstChannelDuplicate = channel.cloneNode(true);
+    primary.append(channel, firstVideo, duplicateVideo, firstChannelDuplicate);
+
+    setTimeout(() => {
+      const subtitle = channel.querySelector(".ytf-channel-caption-subtitle");
+      if (subtitle?.textContent !== "First description") {
+        document.querySelector("#result").textContent = "FAIL: initial channel description missing";
+        return;
+      }
+      channel.querySelector("#main-link").href = "/@second";
+      channel.querySelector("#channel-title a").textContent = "Second Channel";
+      channel.querySelector("#channel-title a").href = "/@second";
+      channel.querySelector("#description").remove();
+      firstChannelDuplicate.querySelector("#main-link").href = "/@second";
+      document.dispatchEvent(new Event("yt-navigate-finish"));
+
+      setTimeout(() => {
+        const failures = [];
+        if (subtitle.textContent !== "") failures.push(`reused channel retained its old caption (${subtitle.textContent}; ${channel.dataset.ytfChannel})`);
+        if (!duplicateVideo.hasAttribute("data-ytf-duplicate-result")) failures.push("duplicate video was not hidden");
+        if (!firstChannelDuplicate.hasAttribute("data-ytf-duplicate-result")) failures.push("duplicate channel was not hidden");
+        document.querySelector("#result").textContent = failures.length ? `FAIL: ${failures.join("; ")}` : "PASS";
+      }, 500);
+    }, 500);
+  </script>
+</body>
+</html>
