@@ -110,7 +110,7 @@
     const description = card.querySelector("#description")?.textContent.trim() || "";
     if (title.href !== url.href) title.href = url.href;
     if (title.textContent !== name) title.textContent = name;
-    if (description && subtitle.textContent !== description) subtitle.textContent = description;
+    if (subtitle.textContent !== description) subtitle.textContent = description;
 
     if (card.dataset.ytfChannel === url.pathname) return;
     hero.replaceChildren();
