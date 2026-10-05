@@ -1,0 +1,18 @@
+pkgbase = focus-tube-git
+	pkgdesc = A quieter YouTube window for Omarchy
+	pkgver = r16.5f7a07b
+	pkgrel = 1
+	url = https://github.com/Trolzie/focus-tube
+	arch = any
+	license = MIT
+	makedepends = git
+	depends = chromium
+	depends = python
+	depends = omarchy
+	depends = uwsm
+	provides = focus-tube
+	conflicts = focus-tube
+	source = focus-tube::git+https://github.com/Trolzie/focus-tube.git
+	sha256sums = SKIP
+
+pkgname = focus-tube-git
