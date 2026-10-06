@@ -30,6 +30,7 @@
   let cardFrame = 0;
   let dedupeFrame = 0;
   let prefetchFrame = 0;
+  let searchAlignmentFrame = 0;
 
   const gridIcons = {
     compact: '<path d="M2 2h5v5H2zM9 2h5v5H9zM16 2h5v5h-5zM2 9h5v5H2zM9 9h5v5H9zM16 9h5v5h-5zM2 16h5v5H2zM9 16h5v5H9zM16 16h5v5h-5z"/>',
@@ -263,9 +264,13 @@
   }
 
   function observeChanges(records) {
+    let alignSearch = false;
     for (const record of records) {
       const target = record.target.nodeType === Node.ELEMENT_NODE
         ? record.target : record.target.parentElement;
+      if (location.pathname === "/results" && target?.closest("ytd-search, ytd-masthead")) {
+        alignSearch = true;
+      }
       if (location.pathname === "/results" && !target?.closest(".ytf-card-details")) {
         const card = target?.closest(cardSelector);
         queueCard(card);
@@ -301,6 +306,7 @@
         (searchTools.parentElement === controls || !searchTools.isConnected)) {
       placeSearchTools();
     }
+    if (alignSearch) queueSearchAlignment();
   }
 
   async function syncTheme() {
@@ -540,6 +546,40 @@
     }
   }
 
+  function alignSearchBar() {
+    searchAlignmentFrame = 0;
+    const searchBar = document.querySelector("ytd-masthead #center yt-searchbox");
+    if (!searchBar) return;
+    if (location.pathname !== "/results") {
+      searchBar.style.removeProperty("transform");
+      searchBar.style.removeProperty("max-width");
+      searchBar.style.removeProperty("min-width");
+      return;
+    }
+
+    const grid = document.querySelector("ytd-search #primary ytd-section-list-renderer > #contents");
+    const logo = document.querySelector("#ytf-header-link");
+    const end = document.querySelector("ytd-masthead #end");
+    if (!grid || !logo || !end) return;
+
+    const gridBounds = grid.getBoundingClientRect();
+    const logoBounds = logo.getBoundingClientRect();
+    const endBounds = end.getBoundingClientRect();
+    const targetLeft = Math.max(gridBounds.left, logoBounds.right + 24);
+    const availableWidth = Math.max(0, endBounds.left - targetLeft - 16);
+
+    searchBar.style.transform = "none";
+    searchBar.style.maxWidth = `${availableWidth}px`;
+    searchBar.style.minWidth = "0";
+    const currentLeft = searchBar.getBoundingClientRect().left;
+    searchBar.style.transform = `translateX(${Math.round(targetLeft - currentLeft)}px)`;
+  }
+
+  function queueSearchAlignment() {
+    if (searchAlignmentFrame) return;
+    searchAlignmentFrame = requestAnimationFrame(alignSearchBar);
+  }
+
   function mount() {
     if (!document.body || document.getElementById("ytf-controls")) return;
     makeHome();
@@ -547,6 +587,7 @@
     makeHeader();
     applySettings();
     placeSearchTools();
+    alignSearchBar();
     focusHomeInput();
     decorateResults();
     dedupeResults();
@@ -567,6 +608,7 @@
   });
   window.addEventListener("scroll", queuePrefetch, { passive: true });
   window.addEventListener("resize", queuePrefetch);
+  window.addEventListener("resize", queueSearchAlignment);
   chrome.storage.local.get([...Object.keys(defaults), "largeGrid"], (saved) => {
     settings = { ...defaults, ...saved };
     settings.gridSize = gridSizes.includes(saved.gridSize)
@@ -588,6 +630,7 @@
     makeHeader();
     applySettings();
     placeSearchTools();
+    alignSearchBar();
     focusHomeInput();
     decorateResults();
     dedupeResults();
@@ -595,6 +638,7 @@
   });
   window.addEventListener("popstate", () => {
     applySettings();
+    queueSearchAlignment();
     focusHomeInput();
   });
 })();

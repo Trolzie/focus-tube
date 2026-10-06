@@ -31,29 +31,34 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 server = http.server.ThreadingHTTPServer(("127.0.0.1", 0), Handler)
 threading.Thread(target=server.serve_forever, daemon=True).start()
 try:
-    with tempfile.TemporaryDirectory(prefix="focus-tube-search-test-") as profile:
-        result = subprocess.run(
-            [
-                browser,
-                "--headless",
-                "--no-sandbox",
-                "--disable-gpu",
-                "--disable-dev-shm-usage",
-                f"--user-data-dir={profile}",
-                "--virtual-time-budget=5000",
-                "--dump-dom",
-                f"http://127.0.0.1:{server.server_port}/results",
-            ],
-            capture_output=True,
-            text=True,
-            timeout=20,
-        )
+    with tempfile.TemporaryDirectory(prefix="focus-tube-search-test-") as profile_root:
+        for width in (1280, 500):
+            profile = pathlib.Path(profile_root) / str(width)
+            profile.mkdir()
+            result = subprocess.run(
+                [
+                    browser,
+                    "--headless",
+                    "--no-sandbox",
+                    "--disable-gpu",
+                    "--disable-dev-shm-usage",
+                    f"--user-data-dir={profile}",
+                    f"--window-size={width},900",
+                    "--virtual-time-budget=5000",
+                    "--dump-dom",
+                    f"http://127.0.0.1:{server.server_port}/results",
+                ],
+                capture_output=True,
+                text=True,
+                timeout=20,
+            )
+            if result.returncode != 0:
+                raise SystemExit(result.stderr or "Chromium failed.")
+            if "<pre id=\"result\">PASS</pre>" not in result.stdout:
+                marker = re.search(r'<pre id="result">(.*?)</pre>', result.stdout, re.S)
+                message = marker.group(1) if marker else "test did not finish"
+                raise SystemExit(f"{width}px viewport: {message}")
 finally:
     server.shutdown()
 
-if result.returncode != 0:
-    raise SystemExit(result.stderr or "Chromium failed.")
-if "<pre id=\"result\">PASS</pre>" not in result.stdout:
-    marker = re.search(r'<pre id="result">(.*?)</pre>', result.stdout, re.S)
-    raise SystemExit(marker.group(1) if marker else "Search card test page did not finish.")
-print("Search card checks passed.")
+print("Search card checks passed at desktop and narrow widths.")
