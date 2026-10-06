@@ -47,6 +47,10 @@ ytd-search [data-ytf-duplicate-result] {
   display: none !important;
 }
 
+ytd-browse[page-subtype="channels"] {
+  padding-top: 24px !important;
+}
+
 ytd-search #primary ytd-section-list-renderer > #contents {
   display: grid !important;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
