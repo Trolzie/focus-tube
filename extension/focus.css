@@ -66,6 +66,10 @@ html.ytf-results-route ytd-search-header-renderer {
   display: none !important;
 }
 
+html.ytf-results-route ytd-search {
+  padding-top: 24px;
+}
+
 ytd-search #primary ytd-section-list-renderer > #contents > ytd-item-section-renderer,
 ytd-search #primary ytd-item-section-renderer > #contents,
 ytd-search #primary ytd-item-section-renderer > #header,

@@ -1,6 +1,11 @@
 <!doctype html>
 <html>
-<head><meta charset="utf-8"><title>Focus Tube search card regression</title></head>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="/extension/palette.css">
+  <link rel="stylesheet" href="/extension/focus.css">
+  <title>Focus Tube search card regression</title>
+</head>
 <body>
   <ytd-masthead><div id="start"></div><div id="end"><div id="buttons"></div></div></ytd-masthead>
   <ytd-search><div id="primary"></div></ytd-search>
@@ -63,6 +68,9 @@
 
       setTimeout(() => {
         const failures = [];
+        if (getComputedStyle(document.querySelector("ytd-search")).paddingTop !== "24px") {
+          failures.push("desktop results page lacks top spacing");
+        }
         if (window.__paletteFetches < 2) failures.push("theme did not sync after YouTube navigation");
         if (window.__intervalCalls !== 0) failures.push("theme sync still uses an interval");
         if (subtitle.textContent !== "") failures.push(`reused channel retained its old caption (${subtitle.textContent}; ${channel.dataset.ytfChannel})`);
