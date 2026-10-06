@@ -542,8 +542,20 @@ ytd-masthead yt-searchbox .ytSearchboxComponentInnerSearchIcon {
   display: none !important;
 }
 
-ytd-masthead yt-searchbox .ytSearchboxComponentInputBoxHasFocus .ytSearchboxComponentInput {
+ytd-masthead yt-searchbox .ytSuggestionComponentIcon {
+  display: none !important;
+}
+
+ytd-masthead yt-searchbox .ytSearchboxComponentInput,
+ytd-masthead yt-searchbox .ytSearchboxComponentInputBoxHasFocus input,
+ytd-masthead yt-searchbox:focus-within .ytSearchboxComponentInput {
   margin-left: 0 !important;
+  padding-left: 0 !important;
+  text-indent: 0 !important;
+}
+
+ytd-masthead yt-searchbox .ytSearchboxComponentInputBoxHasFocus {
+  padding-left: 0 !important;
 }
 
 ytd-masthead yt-searchbox .ytSearchboxComponentInput {

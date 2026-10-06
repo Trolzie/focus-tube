@@ -13,7 +13,7 @@
     ytd-masthead #center yt-searchbox { display: block; width: 560px; height: 40px; }
     .ytSearchboxComponentInputBox { display: flex; align-items: center; width: 100%; height: 40px; }
     .ytSearchboxComponentInnerSearchIcon { width: 24px; height: 24px; }
-    .ytSearchboxComponentInputBoxHasFocus .ytSearchboxComponentInput { margin-left: 32px; }
+    .ytSearchboxComponentInputBoxHasFocus .ytSearchboxComponentInput { margin-left: 32px; padding-left: 16px; }
     ytd-search #primary ytd-section-list-renderer > #contents {
       width: min(800px, calc(100vw - 48px));
       margin-inline: auto;
@@ -22,7 +22,7 @@
   <title>Focus Tube search card regression</title>
 </head>
 <body>
-  <ytd-masthead><div id="start"></div><div id="center"><yt-searchbox><div class="ytSearchboxComponentInputBox"><span class="ytSearchboxComponentInnerSearchIcon">⌕</span><input class="ytSearchboxComponentInput"></div></yt-searchbox></div><div id="end"><div id="buttons"></div></div></ytd-masthead>
+  <ytd-masthead><div id="start"></div><div id="center"><yt-searchbox><div class="ytSearchboxComponentInputBox"><span class="ytSearchboxComponentInnerSearchIcon">⌕</span><input class="ytSearchboxComponentInput"></div><div class="ytSearchboxComponentSuggestionsContainer"><div class="ytSuggestionComponentRoundedSuggestion"><span class="ytSuggestionComponentIcon">⌕</span><span>pixel art</span></div></div></yt-searchbox></div><div id="end"><div id="buttons"></div></div></ytd-masthead>
   <ytd-search><div id="primary"><ytd-section-list-renderer><div id="contents"></div></ytd-section-list-renderer></div></ytd-search>
   <pre id="result">RUNNING</pre>
   <script>
@@ -98,12 +98,17 @@
         const endBounds = document.querySelector("ytd-masthead #end").getBoundingClientRect();
         const searchBar = document.querySelector("ytd-masthead #center yt-searchbox");
         const innerSearchIcon = searchBar.querySelector(".ytSearchboxComponentInnerSearchIcon");
+        const suggestionIcon = searchBar.querySelector(".ytSuggestionComponentIcon");
         const searchInput = searchBar.querySelector(".ytSearchboxComponentInput");
         if (getComputedStyle(innerSearchIcon).display !== "none") failures.push("inner search icon is visible when unfocused");
+        if (getComputedStyle(suggestionIcon).display !== "none") failures.push("suggestion magnifier is visible when unfocused");
         if (getComputedStyle(searchInput).marginLeft !== "0px") failures.push("search input is offset when unfocused");
+        if (getComputedStyle(searchInput).paddingLeft !== "0px") failures.push("search input has left padding when unfocused");
         searchBar.querySelector(".ytSearchboxComponentInputBox").classList.add("ytSearchboxComponentInputBoxHasFocus");
         if (getComputedStyle(innerSearchIcon).display !== "none") failures.push("inner search icon is visible when focused");
+        if (getComputedStyle(suggestionIcon).display !== "none") failures.push("suggestion magnifier is visible when focused");
         if (getComputedStyle(searchInput).marginLeft !== "0px") failures.push("search input is offset when focused");
+        if (getComputedStyle(searchInput).paddingLeft !== "0px") failures.push("search input has left padding when focused");
         const searchBounds = searchBar.getBoundingClientRect();
         const firstCardLeft = firstVideo.querySelector("ytd-thumbnail").getBoundingClientRect().left;
         const alignedLeft = Math.max(firstCardLeft, logoBounds.right + 24);
