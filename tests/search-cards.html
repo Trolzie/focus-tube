@@ -11,7 +11,8 @@
     ytd-masthead #center { position: absolute; left: 300px; top: 10px; width: 600px; }
     ytd-masthead #end { position: absolute; right: 16px; top: 0; width: 180px; height: 60px; }
     ytd-masthead #center yt-searchbox { display: block; width: 560px; height: 40px; }
-    .ytSearchboxComponentInputBox { display: flex; align-items: center; width: 100%; height: 40px; }
+    .ytSearchboxComponentInputBox { display: flex; align-items: center; width: 100%; height: 40px; margin-left: 32px; padding-left: 16px; box-sizing: border-box; }
+    .ytSearchboxComponentInputBoxHasFocus { margin-left: 0; padding-left: 32px; }
     .ytSearchboxComponentInnerSearchIcon { width: 24px; height: 24px; }
     .ytSearchboxComponentInputBoxHasFocus .ytSearchboxComponentInput { margin-left: 32px; padding-left: 16px; }
     ytd-search #primary ytd-section-list-renderer > #contents {
@@ -98,17 +99,20 @@
         const endBounds = document.querySelector("ytd-masthead #end").getBoundingClientRect();
         const searchBar = document.querySelector("ytd-masthead #center yt-searchbox");
         const innerSearchIcon = searchBar.querySelector(".ytSearchboxComponentInnerSearchIcon");
-        const suggestionIcon = searchBar.querySelector(".ytSuggestionComponentIcon");
+        const suggestions = searchBar.querySelector(".ytSearchboxComponentSuggestionsContainer");
         const searchInput = searchBar.querySelector(".ytSearchboxComponentInput");
+        const inputBox = searchBar.querySelector(".ytSearchboxComponentInputBox");
+        const unfocusedFieldLeft = inputBox.getBoundingClientRect().left;
+        const unfocusedTextLeft = searchInput.getBoundingClientRect().left;
         if (getComputedStyle(innerSearchIcon).display !== "none") failures.push("inner search icon is visible when unfocused");
-        if (getComputedStyle(suggestionIcon).display !== "none") failures.push("suggestion magnifier is visible when unfocused");
-        if (getComputedStyle(searchInput).marginLeft !== "0px") failures.push("search input is offset when unfocused");
-        if (getComputedStyle(searchInput).paddingLeft !== "0px") failures.push("search input has left padding when unfocused");
-        searchBar.querySelector(".ytSearchboxComponentInputBox").classList.add("ytSearchboxComponentInputBoxHasFocus");
+        if (suggestions.getClientRects().length) failures.push("suggestions panel is visible when unfocused");
+        inputBox.classList.add("ytSearchboxComponentInputBoxHasFocus");
+        searchInput.focus({ preventScroll: true });
         if (getComputedStyle(innerSearchIcon).display !== "none") failures.push("inner search icon is visible when focused");
-        if (getComputedStyle(suggestionIcon).display !== "none") failures.push("suggestion magnifier is visible when focused");
-        if (getComputedStyle(searchInput).marginLeft !== "0px") failures.push("search input is offset when focused");
-        if (getComputedStyle(searchInput).paddingLeft !== "0px") failures.push("search input has left padding when focused");
+        if (suggestions.getClientRects().length) failures.push("suggestions panel is visible when focused");
+        if (inputBox.getBoundingClientRect().left !== unfocusedFieldLeft) failures.push("search field moves on focus");
+        if (searchInput.getBoundingClientRect().left !== unfocusedTextLeft) failures.push("search text moves on focus");
+        if (unfocusedTextLeft - unfocusedFieldLeft < 16) failures.push("search text lacks inner padding");
         const searchBounds = searchBar.getBoundingClientRect();
         const firstCardLeft = firstVideo.querySelector("ytd-thumbnail").getBoundingClientRect().left;
         const alignedLeft = Math.max(firstCardLeft, logoBounds.right + 24);
