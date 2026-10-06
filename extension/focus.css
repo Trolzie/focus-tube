@@ -507,11 +507,10 @@ ytd-masthead ytd-topbar-logo-renderer {
   width: 36px;
   height: 40px;
   flex: none;
-  outline-offset: 2px;
 }
 
 #ytf-header-link:focus-visible {
-  outline: 2px solid var(--ytf-accent);
+  outline: none;
 }
 
 .ytf-play-mark {

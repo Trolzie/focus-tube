@@ -69,6 +69,11 @@
 
       setTimeout(() => {
         const failures = [];
+        const logoLink = document.querySelector("#ytf-header-link");
+        logoLink.focus({ focusVisible: true });
+        if (getComputedStyle(logoLink).outlineStyle !== "none") {
+          failures.push("Focus Tube logo still has a focus outline");
+        }
         if (getComputedStyle(resultsGrid).paddingTop !== "24px") {
           failures.push("desktop results page lacks top spacing");
         }
