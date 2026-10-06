@@ -8,7 +8,7 @@
 </head>
 <body>
   <ytd-masthead><div id="start"></div><div id="end"><div id="buttons"></div></div></ytd-masthead>
-  <ytd-search><div id="primary"></div></ytd-search>
+  <ytd-search><div id="primary"><ytd-section-list-renderer><div id="contents"></div></ytd-section-list-renderer></div></ytd-search>
   <pre id="result">RUNNING</pre>
   <script>
     window.__paletteFetches = 0;
@@ -35,6 +35,7 @@
   <script src="/extension/focus.js"></script>
   <script>
     const primary = document.querySelector("ytd-search #primary");
+    const resultsGrid = document.querySelector("ytd-search #primary ytd-section-list-renderer > #contents");
     const channel = document.createElement("ytd-channel-renderer");
     channel.innerHTML = `
       <a id="main-link" href="/@first"></a>
@@ -51,7 +52,7 @@
       </div>`;
     const duplicateVideo = firstVideo.cloneNode(true);
     const firstChannelDuplicate = channel.cloneNode(true);
-    primary.append(channel, firstVideo, duplicateVideo, firstChannelDuplicate);
+    resultsGrid.append(channel, firstVideo, duplicateVideo, firstChannelDuplicate);
 
     setTimeout(() => {
       const subtitle = channel.querySelector(".ytf-channel-caption-subtitle");
@@ -68,8 +69,11 @@
 
       setTimeout(() => {
         const failures = [];
-        if (getComputedStyle(document.querySelector("ytd-search")).paddingTop !== "24px") {
+        if (getComputedStyle(resultsGrid).paddingTop !== "24px") {
           failures.push("desktop results page lacks top spacing");
+        }
+        if (Math.round(channel.getBoundingClientRect().top - resultsGrid.getBoundingClientRect().top) !== 24) {
+          failures.push("first result is not visibly offset from the grid top");
         }
         if (window.__paletteFetches < 2) failures.push("theme did not sync after YouTube navigation");
         if (window.__intervalCalls !== 0) failures.push("theme sync still uses an interval");
