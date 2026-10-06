@@ -565,10 +565,15 @@
     const gridBounds = grid.getBoundingClientRect();
     const firstCard = [...grid.querySelectorAll("ytd-video-renderer, yt-lockup-view-model, ytd-channel-renderer")]
       .find((card) => card.getClientRects().length > 0);
-    const firstCardBounds = firstCard?.getBoundingClientRect();
+    const firstMedia = firstCard?.matches("ytd-channel-renderer")
+      ? firstCard.querySelector(".ytf-channel-preview")
+      : firstCard?.matches("yt-lockup-view-model")
+        ? firstCard.querySelector(".ytLockupViewModelContentImage")
+        : firstCard?.querySelector("ytd-thumbnail");
+    const firstMediaBounds = (firstMedia || firstCard)?.getBoundingClientRect();
     const logoBounds = logo.getBoundingClientRect();
     const endBounds = end.getBoundingClientRect();
-    const targetLeft = Math.max(firstCardBounds?.left ?? gridBounds.left, logoBounds.right + 24);
+    const targetLeft = Math.max(firstMediaBounds?.left ?? gridBounds.left, logoBounds.right + 24);
     const availableWidth = Math.max(0, endBounds.left - targetLeft - 16);
 
     searchBar.style.transform = "none";

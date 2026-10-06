@@ -59,12 +59,13 @@
     const firstVideo = document.createElement("ytd-video-renderer");
     firstVideo.innerHTML = `
       <a href="/watch?v=same-video"></a>
+      <ytd-thumbnail style="margin-left: -20px !important"></ytd-thumbnail>
       <div class="text-wrapper"><div id="channel-info"><ytd-channel-name><a href="/@first">First Channel</a></ytd-channel-name></div>
         <ytd-video-meta-block><div id="metadata-line"><span class="inline-metadata-item">2 days ago</span><span class="inline-metadata-item">10 views</span></div></ytd-video-meta-block>
       </div>`;
     const duplicateVideo = firstVideo.cloneNode(true);
     const firstChannelDuplicate = channel.cloneNode(true);
-    resultsGrid.append(channel, firstVideo, duplicateVideo, firstChannelDuplicate);
+    resultsGrid.append(firstVideo, duplicateVideo, channel, firstChannelDuplicate);
 
     setTimeout(() => {
       const subtitle = channel.querySelector(".ytf-channel-caption-subtitle");
@@ -94,12 +95,12 @@
         const endBounds = document.querySelector("ytd-masthead #end").getBoundingClientRect();
         const searchBar = document.querySelector("ytd-masthead #center yt-searchbox");
         const searchBounds = searchBar.getBoundingClientRect();
-        const firstCardLeft = channel.getBoundingClientRect().left;
+        const firstCardLeft = firstVideo.querySelector("ytd-thumbnail").getBoundingClientRect().left;
         const alignedLeft = Math.max(firstCardLeft, logoBounds.right + 24);
         if (Math.abs(searchBounds.left - alignedLeft) > 1) failures.push(`search bar alignment: ${searchBounds.left} vs ${alignedLeft}`);
         if (searchBounds.right > endBounds.left - 15) failures.push(`search bar overlaps controls: right ${searchBounds.right}, controls ${endBounds.left}`);
         const expectedCardOffset = innerWidth <= 700 ? 0 : 24;
-        if (Math.round(channel.getBoundingClientRect().top - resultsGrid.getBoundingClientRect().top) !== expectedCardOffset) {
+        if (Math.round(firstVideo.getBoundingClientRect().top - resultsGrid.getBoundingClientRect().top) !== expectedCardOffset) {
           failures.push("first result is not visibly offset from the grid top");
         }
         if (window.__paletteFetches < 2) failures.push("theme did not sync after YouTube navigation");
