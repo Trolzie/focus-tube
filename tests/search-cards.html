@@ -127,6 +127,30 @@
         if (subtitle.textContent !== "") failures.push(`reused channel retained its old caption (${subtitle.textContent}; ${channel.dataset.ytfChannel})`);
         if (!duplicateVideo.hasAttribute("data-ytf-duplicate-result")) failures.push("duplicate video was not hidden");
         if (!firstChannelDuplicate.hasAttribute("data-ytf-duplicate-result")) failures.push("duplicate channel was not hidden");
+        // YouTube's channel header is fixed independently of the outer page container.
+        // Padding the page manager or browse renderer cannot create this banner gap.
+        const page = document.createElement("ytd-page-manager");
+        page.innerHTML = `<ytd-browse page-subtype="channels"><ytd-tabbed-page-header>
+          <div style="position: fixed; top: 60px; left: 0; width: 100%">
+            <div id="page-header-container"><div id="page-header-banner" style="height: 100px">Banner</div></div>
+          </div></ytd-tabbed-page-header></ytd-browse>`;
+        document.body.append(page);
+        history.pushState({}, "", "/@second/videos");
+        document.dispatchEvent(new Event("yt-navigate-finish"));
+        const channelContainer = page.querySelector("#page-header-container");
+        const banner = page.querySelector("#page-header-banner");
+        if (getComputedStyle(channelContainer).paddingTop !== "24px" || banner.getBoundingClientRect().top !== 84) {
+          failures.push("channel banner lacks 24px top spacing inside the fixed header");
+        }
+        if (getComputedStyle(document.querySelector("#ytf-search-tools")).display !== "none") {
+          failures.push("search tools remain visible on a channel page");
+        }
+        history.pushState({}, "", "/watch?v=same-video");
+        document.dispatchEvent(new Event("yt-navigate-finish"));
+        if (document.documentElement.classList.contains("ytf-channel-route")) {
+          failures.push("channel spacing remains active after leaving the channel");
+        }
+        page.remove();
         document.querySelector("#result").textContent = failures.length ? `FAIL: ${failures.join("; ")}` : "PASS";
       }, 500);
     }, 500);

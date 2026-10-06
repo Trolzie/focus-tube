@@ -1,7 +1,7 @@
 # Maintainer: Trolzie <Trolzie at users dot noreply dot github dot com>
 
 pkgname=focus-tube-git
-pkgver=r16.5f7a07b
+pkgver=r38.a663afa
 pkgrel=1
 pkgdesc='A quieter YouTube window for Omarchy'
 arch=('any')

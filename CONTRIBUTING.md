@@ -22,6 +22,8 @@ YouTube changes its page structure often. A precise example helps find which sel
 
 Run `bash tests/launcher.sh` for launcher changes and `python tests/search-cards.py` for search card changes. The search card check uses Chromium in headless mode.
 
+Run `python tests/install.py` to check a fresh local install and an update in a disposable home directory. Pass a built package archive as its argument to check package contents and first-launch setup too. These checks run the real theme generator but simulate Omarchy hook registration and Chromium launch; they do not install a package into your system or replace live browser checks. See the [release checklist](docs/RELEASE.md) for the remaining launch checks.
+
 Keep changes consistent with the project's aim: less clutter, controls that are easy to understand, and colors that follow Omarchy. Please avoid committing browser profiles, account data, or generated local files.
 
 The Arch package recipe lives in `packaging/aur/PKGBUILD`. It fetches the main branch from GitHub, so testing unmerged changes requires temporarily pointing its `source` at your branch or a local checkout. Contributions are covered by the project's [MIT license](LICENSE).

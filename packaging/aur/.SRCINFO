@@ -1,6 +1,6 @@
 pkgbase = focus-tube-git
 	pkgdesc = A quieter YouTube window for Omarchy
-	pkgver = r16.5f7a07b
+	pkgver = r38.a663afa
 	pkgrel = 1
 	url = https://github.com/Trolzie/focus-tube
 	arch = any
