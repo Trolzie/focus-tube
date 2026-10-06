@@ -47,8 +47,8 @@ ytd-search [data-ytf-duplicate-result] {
   display: none !important;
 }
 
-html.ytf-channel-route ytd-page-manager {
-  margin-top: calc(var(--ytd-toolbar-height, 56px) + 24px) !important;
+html.ytf-channel-route ytd-tabbed-page-header #page-header-container {
+  padding-top: 24px !important;
 }
 
 ytd-search #primary ytd-section-list-renderer > #contents {
