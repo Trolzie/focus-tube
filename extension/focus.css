@@ -47,7 +47,7 @@ ytd-search [data-ytf-duplicate-result] {
   display: none !important;
 }
 
-ytd-browse[page-subtype="channels"] {
+html.ytf-channel-route ytd-page-manager {
   padding-top: 24px !important;
 }
 

@@ -384,6 +384,7 @@
     root.classList.toggle("ytf-hide-endcards", !settings.showEndCards);
     root.classList.toggle("ytf-home-route", location.pathname === "/");
     root.classList.toggle("ytf-results-route", location.pathname === "/results");
+    root.classList.toggle("ytf-channel-route", /^\/(?:@[^/]+|channel\/[^/]+|c\/[^/]+|user\/[^/]+)(?:\/|$)/.test(location.pathname));
     root.dataset.ytfGridSize = settings.gridSize;
 
     if (controls) {
