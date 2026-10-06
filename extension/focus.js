@@ -563,9 +563,12 @@
     if (!grid || !logo || !end) return;
 
     const gridBounds = grid.getBoundingClientRect();
+    const firstCard = [...grid.querySelectorAll("ytd-video-renderer, yt-lockup-view-model, ytd-channel-renderer")]
+      .find((card) => card.getClientRects().length > 0);
+    const firstCardBounds = firstCard?.getBoundingClientRect();
     const logoBounds = logo.getBoundingClientRect();
     const endBounds = end.getBoundingClientRect();
-    const targetLeft = Math.max(gridBounds.left, logoBounds.right + 24);
+    const targetLeft = Math.max(firstCardBounds?.left ?? gridBounds.left, logoBounds.right + 24);
     const availableWidth = Math.max(0, endBounds.left - targetLeft - 16);
 
     searchBar.style.transform = "none";

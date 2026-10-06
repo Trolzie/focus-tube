@@ -94,7 +94,8 @@
         const endBounds = document.querySelector("ytd-masthead #end").getBoundingClientRect();
         const searchBar = document.querySelector("ytd-masthead #center yt-searchbox");
         const searchBounds = searchBar.getBoundingClientRect();
-        const alignedLeft = Math.max(resultsGrid.getBoundingClientRect().left, logoBounds.right + 24);
+        const firstCardLeft = channel.getBoundingClientRect().left;
+        const alignedLeft = Math.max(firstCardLeft, logoBounds.right + 24);
         if (Math.abs(searchBounds.left - alignedLeft) > 1) failures.push(`search bar alignment: ${searchBounds.left} vs ${alignedLeft}`);
         if (searchBounds.right > endBounds.left - 15) failures.push(`search bar overlaps controls: right ${searchBounds.right}, controls ${endBounds.left}`);
         const expectedCardOffset = innerWidth <= 700 ? 0 : 24;
