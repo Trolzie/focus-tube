@@ -8,7 +8,7 @@
 </p>
 
 <p align="center">
-  <a href="#install">Install</a> · <a href="#see-it">See it</a> · <a href="#focus-switches">Focus switches</a> · <a href="#made-for-omarchy">Made for Omarchy</a> · <a href="#contribute">Contribute</a>
+  <a href="https://focus-tube-three-zeta.vercel.app/">Website</a> · <a href="#install">Install</a> · <a href="#see-it">See it</a> · <a href="#focus-switches">Focus switches</a> · <a href="#made-for-omarchy">Made for Omarchy</a> · <a href="#contribute">Contribute</a>
 </p>
 
 ## The idea
