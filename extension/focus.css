@@ -755,8 +755,8 @@ html.ytf-results-route ytd-masthead #ytf-search-tools {
 
 #ytf-grid-buttons svg {
   display: block;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
 }
 
 #ytf-filter-button {
@@ -770,8 +770,8 @@ html.ytf-results-route ytd-masthead #ytf-search-tools {
 
 #ytf-filter-button svg {
   display: block;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
 }
 
 #ytf-grid-buttons button[aria-pressed="true"] {
