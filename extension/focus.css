@@ -538,6 +538,10 @@ ytd-masthead yt-searchbox .ytSearchboxComponentInputBox {
   border-color: var(--ytf-muted) !important;
 }
 
+ytd-masthead yt-searchbox .ytSearchboxComponentInnerSearchIcon {
+  display: none !important;
+}
+
 ytd-masthead yt-searchbox .ytSearchboxComponentInput {
   color: var(--ytf-foreground) !important;
   font-family: "JetBrainsMono Nerd Font", monospace !important;

@@ -11,6 +11,8 @@
     ytd-masthead #center { position: absolute; left: 300px; top: 10px; width: 600px; }
     ytd-masthead #end { position: absolute; right: 16px; top: 0; width: 180px; height: 60px; }
     ytd-masthead #center yt-searchbox { display: block; width: 560px; height: 40px; }
+    .ytSearchboxComponentInputBox { display: flex; align-items: center; width: 100%; height: 40px; }
+    .ytSearchboxComponentInnerSearchIcon { width: 24px; height: 24px; }
     ytd-search #primary ytd-section-list-renderer > #contents {
       width: min(800px, calc(100vw - 48px));
       margin-inline: auto;
@@ -19,7 +21,7 @@
   <title>Focus Tube search card regression</title>
 </head>
 <body>
-  <ytd-masthead><div id="start"></div><div id="center"><yt-searchbox></yt-searchbox></div><div id="end"><div id="buttons"></div></div></ytd-masthead>
+  <ytd-masthead><div id="start"></div><div id="center"><yt-searchbox><div class="ytSearchboxComponentInputBox"><span class="ytSearchboxComponentInnerSearchIcon">⌕</span><input class="ytSearchboxComponentInput"></div></yt-searchbox></div><div id="end"><div id="buttons"></div></div></ytd-masthead>
   <ytd-search><div id="primary"><ytd-section-list-renderer><div id="contents"></div></ytd-section-list-renderer></div></ytd-search>
   <pre id="result">RUNNING</pre>
   <script>
@@ -94,6 +96,10 @@
         const logoBounds = logoLink.getBoundingClientRect();
         const endBounds = document.querySelector("ytd-masthead #end").getBoundingClientRect();
         const searchBar = document.querySelector("ytd-masthead #center yt-searchbox");
+        const innerSearchIcon = searchBar.querySelector(".ytSearchboxComponentInnerSearchIcon");
+        if (getComputedStyle(innerSearchIcon).display !== "none") failures.push("inner search icon is visible when unfocused");
+        searchBar.querySelector(".ytSearchboxComponentInputBox").classList.add("ytSearchboxComponentInputBoxHasFocus");
+        if (getComputedStyle(innerSearchIcon).display !== "none") failures.push("inner search icon is visible when focused");
         const searchBounds = searchBar.getBoundingClientRect();
         const firstCardLeft = firstVideo.querySelector("ytd-thumbnail").getBoundingClientRect().left;
         const alignedLeft = Math.max(firstCardLeft, logoBounds.right + 24);
