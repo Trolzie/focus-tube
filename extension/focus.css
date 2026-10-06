@@ -748,9 +748,9 @@ html.ytf-results-route ytd-masthead #ytf-search-tools {
 #ytf-grid-buttons button {
   display: grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
-  padding: 8px;
+  width: 32px;
+  height: 32px;
+  padding: 6px;
 }
 
 #ytf-grid-buttons svg {
@@ -762,9 +762,9 @@ html.ytf-results-route ytd-masthead #ytf-search-tools {
 #ytf-filter-button {
   display: flex;
   align-items: center;
-  gap: 8px;
-  height: 40px;
-  padding: 8px 12px;
+  gap: 6px;
+  height: 32px;
+  padding: 4px 10px;
   white-space: nowrap;
 }
 
