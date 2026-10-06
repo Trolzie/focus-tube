@@ -6,6 +6,18 @@
   <ytd-search><div id="primary"></div></ytd-search>
   <pre id="result">RUNNING</pre>
   <script>
+    window.__paletteFetches = 0;
+    window.__intervalCalls = 0;
+    const nativeFetch = window.fetch.bind(window);
+    const nativeSetInterval = window.setInterval.bind(window);
+    window.fetch = (input, options) => {
+      if (String(input).includes("palette.css")) window.__paletteFetches += 1;
+      return nativeFetch(input, options);
+    };
+    window.setInterval = (...args) => {
+      window.__intervalCalls += 1;
+      return nativeSetInterval(...args);
+    };
     window.chrome = {
       runtime: { getURL: (path) => `/extension/${path}` },
       storage: {
@@ -51,6 +63,8 @@
 
       setTimeout(() => {
         const failures = [];
+        if (window.__paletteFetches < 2) failures.push("theme did not sync after YouTube navigation");
+        if (window.__intervalCalls !== 0) failures.push("theme sync still uses an interval");
         if (subtitle.textContent !== "") failures.push(`reused channel retained its old caption (${subtitle.textContent}; ${channel.dataset.ytfChannel})`);
         if (!duplicateVideo.hasAttribute("data-ytf-duplicate-result")) failures.push("duplicate video was not hidden");
         if (!firstChannelDuplicate.hasAttribute("data-ytf-duplicate-result")) failures.push("duplicate channel was not hidden");

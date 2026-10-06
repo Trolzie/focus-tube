@@ -555,9 +555,6 @@
 
   applySettings();
   syncTheme();
-  window.setInterval(() => {
-    if (!document.hidden) syncTheme();
-  }, 1000);
   new MutationObserver(observeChanges).observe(document.documentElement, {
     childList: true,
     characterData: true,
@@ -587,6 +584,7 @@
   document.addEventListener("DOMContentLoaded", mount, { once: true });
   if (document.readyState !== "loading") mount();
   document.addEventListener("yt-navigate-finish", () => {
+    syncTheme();
     makeHeader();
     applySettings();
     placeSearchTools();

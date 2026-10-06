@@ -52,7 +52,7 @@ Your choices stay in Focus Tube's dedicated browser profile.
 
 - **Keyboard first.** Launch it from the app launcher or give it a keybinding.
 - **A window that tiles.** Chromium runs as an app window with its own profile, so it fits into your usual layout.
-- **One desktop, one palette.** The pixel art, interface colors, and desktop icon use the active Omarchy theme. Theme changes update while the app is open, as they should.
+- **One desktop, one palette.** The pixel art, interface colors, and desktop icon use the active Omarchy theme. An open page picks up theme changes on the next YouTube navigation or when the app becomes visible again.
 - **Easy to shape.** The interface lives in a small local extension; the focus switches are yours to change at any time.
 
 ## Install
