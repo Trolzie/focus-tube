@@ -13,6 +13,7 @@
     ytd-masthead #center yt-searchbox { display: block; width: 560px; height: 40px; }
     .ytSearchboxComponentInputBox { display: flex; align-items: center; width: 100%; height: 40px; }
     .ytSearchboxComponentInnerSearchIcon { width: 24px; height: 24px; }
+    .ytSearchboxComponentInputBoxHasFocus .ytSearchboxComponentInput { margin-left: 32px; }
     ytd-search #primary ytd-section-list-renderer > #contents {
       width: min(800px, calc(100vw - 48px));
       margin-inline: auto;
@@ -97,9 +98,12 @@
         const endBounds = document.querySelector("ytd-masthead #end").getBoundingClientRect();
         const searchBar = document.querySelector("ytd-masthead #center yt-searchbox");
         const innerSearchIcon = searchBar.querySelector(".ytSearchboxComponentInnerSearchIcon");
+        const searchInput = searchBar.querySelector(".ytSearchboxComponentInput");
         if (getComputedStyle(innerSearchIcon).display !== "none") failures.push("inner search icon is visible when unfocused");
+        if (getComputedStyle(searchInput).marginLeft !== "0px") failures.push("search input is offset when unfocused");
         searchBar.querySelector(".ytSearchboxComponentInputBox").classList.add("ytSearchboxComponentInputBoxHasFocus");
         if (getComputedStyle(innerSearchIcon).display !== "none") failures.push("inner search icon is visible when focused");
+        if (getComputedStyle(searchInput).marginLeft !== "0px") failures.push("search input is offset when focused");
         const searchBounds = searchBar.getBoundingClientRect();
         const firstCardLeft = firstVideo.querySelector("ytd-thumbnail").getBoundingClientRect().left;
         const alignedLeft = Math.max(firstCardLeft, logoBounds.right + 24);

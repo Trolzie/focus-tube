@@ -542,6 +542,10 @@ ytd-masthead yt-searchbox .ytSearchboxComponentInnerSearchIcon {
   display: none !important;
 }
 
+ytd-masthead yt-searchbox .ytSearchboxComponentInputBoxHasFocus .ytSearchboxComponentInput {
+  margin-left: 0 !important;
+}
+
 ytd-masthead yt-searchbox .ytSearchboxComponentInput {
   color: var(--ytf-foreground) !important;
   font-family: "JetBrainsMono Nerd Font", monospace !important;
