@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" shape-rendering="crispEdges">
+  <title>Focus Tube</title>
+  <path fill="#80f59b" d="M8 10h48v4h4v4h4v28h-4v4h-4v4H8v-4H4v-4H0V18h4v-4h4z"/>
+  <path fill="#090b10" d="M24 18h8v4h8v4h8v4h8v4h-8v4h-8v4h-8v4h-8z"/>
+</svg>

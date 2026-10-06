@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090b10">
+  <meta name="description" content="A quieter YouTube window for Omarchy. Find a video, watch it, and get back to your day. Free, open source, and made for your desktop.">
+  <meta property="og:title" content="Focus Tube — Search. Watch. Back to work.">
+  <meta property="og:description" content="A quieter YouTube window for Omarchy. Your videos, with fewer distractions.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+  <title>Focus Tube — Search. Watch. Back to work.</title>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="header wrap">
+    <a class="brand" href="#" aria-label="Focus Tube home"><img src="assets/icon.svg" alt="" width="32" height="32"><span>FOCUS TUBE<span class="brand-dot">_</span></span></a>
+    <nav aria-label="Main navigation"><a href="#experience">The app</a><a href="#install">Install</a><a class="source-link" href="https://github.com/Trolzie/focus-tube">GitHub <span aria-hidden="true">↗</span></a></nav>
+  </header>
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <div class="eyebrow"><span class="status-pixel" aria-hidden="true"></span>A QUIETER YOUTUBE WINDOW FOR OMARCHY</div>
+      <h1 id="hero-title">Search.<br><span class="accent">Watch.</span><br>Back to work<span class="accent">.</span></h1>
+      <div class="hero-bottom"><p>Find the video you came for.<br>Leave the distractions behind.</p><div class="hero-actions"><a class="button primary" href="#install">Get Focus Tube <span aria-hidden="true">↓</span></a><a class="text-link" href="#experience">Take a look <span aria-hidden="true">↘</span></a></div></div>
+      <div class="hero-mark" aria-hidden="true"><svg viewBox="0 0 64 64" shape-rendering="crispEdges"><path d="M8 10h48v4h4v4h4v28h-4v4h-4v4H8v-4H4v-4H0V18h4v-4h4z"/><path class="cutout" d="M24 18h8v4h8v4h8v4h8v4h-8v4h-8v4h-8v4h-8z"/></svg></div>
+      <div class="hero-meta"><span>LINUX / OMARCHY</span><span>FREE & OPEN SOURCE</span><span>MIT LICENSE</span></div>
+    </section>
+
+    <section id="experience" class="experience wrap" aria-labelledby="experience-title">
+      <div class="section-heading"><div><span class="eyebrow">01 / LESS IN THE WAY</span><h2 id="experience-title">A little less YouTube.<br>A lot more intention.</h2></div><p>Same videos. A calmer place to find them.<br>Focus Tube opens YouTube in its own Chromium window, with a small local extension that clears the clutter.</p></div>
+      <div class="app-window">
+        <div class="window-bar"><span class="window-pixels" aria-hidden="true"><i></i><i></i><i></i></span><span>focus-tube</span><span class="window-label">APP PREVIEW</span></div>
+        <div class="preview-nav" role="group" aria-label="Choose an app screenshot"><button class="preview-tab active" type="button" data-preview="landing" aria-pressed="true">01 — Start with a search</button><button class="preview-tab" type="button" data-preview="results" aria-pressed="false">02 — Find your video</button></div>
+        <div class="screenshot-stage"><img id="app-screenshot" src="assets/landing.png" alt="Focus Tube's landing page with a pixel wordmark and a single search field" width="1280" height="633" loading="lazy"></div>
+        <div class="preview-caption"><span id="preview-description">One search field. Search for a video or paste a YouTube link.</span><span class="build-note">Screenshots from an earlier build</span></div>
+      </div>
+      <div class="steps"><article><span class="step-number">[01]</span><h3>Open with a purpose</h3><p>A simple starting page, without a recommendation feed asking for your attention.</p></article><article><span class="step-number">[02]</span><h3>Find what you need</h3><p>A clean results grid, three card sizes, and YouTube’s own search filters.</p></article><article><span class="step-number">[03]</span><h3>Keep your day yours</h3><p>Watch your video without the usual suggestions, end cards, or automatic next video.</p></article></div>
+    </section>
+
+    <section class="focus-section" aria-labelledby="focus-title"><div class="wrap focus-layout">
+      <div><span class="eyebrow">02 / YOUR SWITCHES</span><h2 id="focus-title">Less noise.<br>Your choice.</h2><p>These distractions start switched off.<br>Turn them back on whenever you want.<br>Your choices are saved between visits.</p><span class="small-note">A dedicated browser profile keeps Focus Tube separate from your usual browsing.</span></div>
+      <div class="switch-panel"><div class="panel-title"><span>FOCUS SETTINGS</span><span class="accent">DEFAULTS</span></div><ul><li><span>Home feed</span><span class="off-indicator"><i aria-hidden="true"></i>OFF</span></li><li><span>Watch suggestions</span><span class="off-indicator"><i aria-hidden="true"></i>OFF</span></li><li><span>Shorts</span><span class="off-indicator"><i aria-hidden="true"></i>OFF</span></li><li><span>Left menu</span><span class="off-indicator"><i aria-hidden="true"></i>OFF</span></li><li><span>End cards</span><span class="off-indicator"><i aria-hidden="true"></i>OFF</span></li><li><span>Autoplay next video</span><span class="off-indicator"><i aria-hidden="true"></i>OFF</span></li></ul><p>Change these inside the app’s Focus panel.</p></div>
+    </div></section>
+
+    <section class="desktop-section wrap" aria-labelledby="desktop-title"><span class="eyebrow">03 / AT HOME ON YOUR DESKTOP</span><div class="desktop-content"><h2 id="desktop-title">Made for<br><a href="https://omarchy.org/">Omarchy<span aria-hidden="true">↗</span></a>.</h2><div class="desktop-details"><article><h3>Your theme, in the app.</h3><p>The interface and pixel icon follow your Omarchy palette. An open page updates when you navigate or bring the app back into view.</p></article><article><h3>Your window, your workflow.</h3><p>A dedicated Chromium app window that fits your tiled desktop. Launch it from the app menu, or add your own keyboard shortcut.</p></article><article><h3>Small enough to make your own.</h3><p>No framework or build pipeline in the app. Just a local extension, a launcher, and a theme helper. All of it is open source.</p></article></div></div></section>
+
+    <section id="install" class="install-section wrap" aria-labelledby="install-title"><div class="section-heading"><div><span class="eyebrow">04 / GET STARTED</span><h2 id="install-title">A quieter window<br>is a few commands away.</h2></div><p>Made for Omarchy, with Chromium and Python.<br>The AUR listing is coming; you can install directly from the repository today.</p></div>
+      <div class="install-layout"><div class="install-notes"><h3>Choose your install</h3><p>The local installer sets up the launcher, desktop entry, and theme hook in your home directory.</p><p>Prefer pacman to manage the app? Build the Arch package from the included recipe.</p><a class="text-link" href="https://github.com/Trolzie/focus-tube#install">Read the full instructions <span aria-hidden="true">↗</span></a></div><div class="terminal"><div class="terminal-top"><div role="group" aria-label="Installation method"><button type="button" class="install-tab active" data-method="local" aria-pressed="true">Local install</button><button type="button" class="install-tab" data-method="package" aria-pressed="false">Arch package</button></div><button class="copy-button" type="button" aria-label="Copy installation commands">Copy <span aria-hidden="true">▣</span></button></div><pre tabindex="0" aria-label="Installation commands"><code id="install-command">git clone https://github.com/Trolzie/focus-tube.git
+cd focus-tube
+./install.sh</code></pre><p id="launch-instruction">Then launch <strong>Focus Tube</strong> from your app menu, or run <code>~/.local/bin/youtube-focus</code>.</p><span id="copy-status" class="sr-only" role="status"></span></div></div>
+    </section>
+
+    <section class="faq wrap" aria-labelledby="faq-title"><div><span class="eyebrow">A FEW THINGS TO KNOW</span><h2 id="faq-title">Before you jump in.</h2></div><div class="questions"><details><summary>Can I use Focus Tube on this website?<span aria-hidden="true">+</span></summary><p>Focus Tube is a desktop app, not a video player on this site. It runs YouTube in a dedicated Chromium window and changes the interface with a local extension. Install it on Omarchy to use the full experience.</p></details><details><summary>Can I sign in to YouTube?<span aria-hidden="true">+</span></summary><p>Yes. You’re using YouTube’s own pages. Focus Tube has a separate browser profile, so signing in happens inside its own window.</p></details><details><summary>How do updates and uninstalling work?<span aria-hidden="true">+</span></summary><p>Pull the latest repository changes and rerun the installer, or rebuild your package. Close and reopen the app to load updates. Uninstalling deletes the dedicated browser profile, including its settings, cookies, and history. See the <a href="https://github.com/Trolzie/focus-tube#update">README</a> for the full commands.</p></details><details><summary>Is this an official YouTube or Omarchy app?<span aria-hidden="true">+</span></summary><p>No. Focus Tube is an independent, open source project under the MIT license. It uses YouTube’s pages, so YouTube interface changes may occasionally require a fix. <a href="https://github.com/Trolzie/focus-tube/issues">Bug reports are welcome.</a></p></details></div></section>
+
+    <section class="closing wrap"><img src="assets/icon.svg" alt="" width="48" height="48"><h2>Find your video.<br>Get on with your day.</h2><a class="button primary" href="#install">Get Focus Tube <span aria-hidden="true">↑</span></a></section>
+  </main>
+  <footer class="wrap"><span>FOCUS TUBE <span class="muted">/ A small app with a clear purpose.</span></span><div><a href="https://github.com/Trolzie/focus-tube">Source</a><a href="https://github.com/Trolzie/focus-tube/issues">Report a bug</a><a href="https://github.com/Trolzie/focus-tube/blob/main/LICENSE">MIT license</a></div></footer>
+</body>
+</html>
