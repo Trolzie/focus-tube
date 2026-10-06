@@ -33,10 +33,21 @@
   let searchAlignmentFrame = 0;
 
   const gridIcons = {
-    compact: '<path d="M2 2h5v5H2zM9 2h5v5H9zM16 2h5v5h-5zM2 9h5v5H2zM9 9h5v5H9zM16 9h5v5h-5zM2 16h5v5H2zM9 16h5v5H9zM16 16h5v5h-5z"/>',
-    large: '<path d="M2 2h8v8H2zM13 2h8v8h-8zM2 13h8v8H2zM13 13h8v8h-8z"/>',
-    "extra-large": '<path d="M2 2h19v19H2z"/>',
+    compact: [0, 7, 14].flatMap((y) => [0, 7, 14].map((x) => pixelFramePath(x, y, 6, 1))).join(" "),
+    large: [0, 11].flatMap((y) => [0, 11].map((x) => pixelFramePath(x, y, 9, 2))).join(" "),
+    "extra-large": pixelFramePath(0, 0, 20, 2),
   };
+  const filterIcon = `M1 5h3v2H1zM10 5h9v2h-9zM1 13h10v2H1zM17 13h2v2h-2z ${pixelFramePath(4, 3, 6, 2)} ${pixelFramePath(11, 11, 6, 2)}`;
+
+  function pixelFramePath(x, y, size, border) {
+    const step = size >= 10 ? 2 : 1;
+    return `M${x + step} ${y}H${x + size - step}V${y + step}H${x + size}V${y + size - step}H${x + size - step}V${y + size}H${x + step}V${y + size - step}H${x}V${y + step}H${x + step}Z ` +
+      `M${x + border} ${y + border}h${size - border * 2}v${size - border * 2}h${border * 2 - size}Z`;
+  }
+
+  function pixelIcon(path) {
+    return `<svg viewBox="0 0 20 20" aria-hidden="true" focusable="false" fill="currentColor" fill-rule="evenodd" shape-rendering="crispEdges"><path d="${path}"/></svg>`;
+  }
 
   function loadChannelInfo(path) {
     return new Promise((resolve) => {
@@ -479,7 +490,7 @@
       gridButton.dataset.gridSize = size;
       gridButton.setAttribute("aria-label", `${label} cards`);
       gridButton.title = `${label} cards`;
-      gridButton.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round">${gridIcons[size]}</svg>`;
+      gridButton.innerHTML = pixelIcon(gridIcons[size]);
       gridButton.setAttribute("aria-pressed", String(settings.gridSize === size));
       gridButton.addEventListener("click", () => {
         settings.gridSize = size;
@@ -493,7 +504,7 @@
     filterButton.id = "ytf-filter-button";
     filterButton.type = "button";
     filterButton.setAttribute("aria-label", "Search filters");
-    filterButton.innerHTML = '<span>Filters</span><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 7h18M3 17h18"/><circle cx="9" cy="7" r="3" fill="var(--ytf-lighter-background)"/><circle cx="15" cy="17" r="3" fill="var(--ytf-lighter-background)"/></svg>';
+    filterButton.innerHTML = `<span>Filters</span>${pixelIcon(filterIcon)}`;
     filterButton.addEventListener("click", () => {
       document.querySelector("ytd-search-header-renderer #filter-button button")?.click();
     });
